@@ -1,14 +1,14 @@
-# Pilot DB with Vannmiliø
+# Vannmiljø Pilot Database
 
 [![DOI](https://zenodo.org/badge/1161573065.svg)](https://doi.org/10.5281/zenodo.19109005)
 
-This repository contains the source Quarto Markdown documents for the [Pilot DB with Vannmiliø](https://seafood-hazards.github.io/pilot-db-with-vannmilijo/) website.
+This repository contains the source Quarto Markdown documents for the [Vannmiljø Pilot Database](https://seafood-hazards.github.io/vannmiljo-pilot/) website.
 
 ## License
 This project is licensed under the [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license.
 
 ## Data source
-The original data used in this project is available on the [Vannmiljø website](https://vannmiljo.miljodirektoratet.no/#/searchwaterlocations) page.
+The original data used in this project is available on the [Vannmiljø](https://vannmiljo.miljodirektoratet.no) website.
 
 ## Reproducibility
 
