@@ -12,6 +12,24 @@ website:
         menu:
           - text: "DB Schema"
             href: db-schema.qmd
+          - text: "DB Schema"
+            href: data-preparation.qmd
+      - text: "Geospatial Analysis"
+        menu:
+          - text: "Distance to Coast"
+            href: distance-to-coast.qmd
+          - text: "Location Names"
+            href: location-names.qmd
+          - text: "Interactive Map"
+            href: distance-interactive-map.qmd
+      - text: "Data Export"
+        menu:
+          - text: "Export to Tabular File"
+            href: data-export.qmd
+      - text: "Tools"
+        menu:
+          - text: "Pilot DB Viewer"
+            href: pilot-db-viewer.qmd
 
 format:
   html:

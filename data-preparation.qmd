@@ -1,0 +1,64 @@
+---
+title: "Data Preparation"
+subtitle: "Translating and cleaning the Vannmiljø dataset"
+---
+
+This page outlines the data preparation steps required to standardize the Vannmiljø dataset. The original dataset contains Norwegian terminology and various missing (`NA`) values. Our goal is to translate the names into English, enforce consistent snake_case naming conventions, and handle missing or inconsistent values appropriately.
+
+## 1. Column Name Translation
+
+The first step in the data preparation process is renaming the columns. The original Norwegian column names (often CamelCase or mixed) are converted to standardized, lowercase English `snake_case` names. This makes the dataset much easier to work with in R and SQL.
+
+The table below shows the exact mapping from the original column names to the new column names:
+
+| Original Norwegian Name (`old`) | New English Name (`new`) |
+|:---|:---|
+| Vannlokalitet_kode | `site_code` |
+| Vannlokalitetsnavn | `site_name` |
+| Betegnelse | `label` |
+| Type | `site_type` |
+| Aktivitet_id | `activity_id` |
+| Aktivitet_navn | `activity_name` |
+| Oppdragsgiver | `client` |
+| Oppdragstaker | `contractor` |
+| Parameter_id | `param_id` |
+| Parameter_navn | `param_name` |
+| Parameter_casnr | `cas_no` |
+| Medium_id | `medium_id` |
+| Medium_navn | `medium_name` |
+| LatinskNavn_id | `taxon_id` |
+| VitenskapligNavn | `scientific_name` |
+| Provetakmetode_id | `sample_method` |
+| Analysemetode_id | `analysis_method` |
+| Tid_provetak | `sample_time` |
+| Ovre_dyp | `upper_depth` |
+| Nedre_dyp | `lower_depth` |
+| DybdeEnhet | `depth_unit` |
+| Filtrert_Prove | `is_filtered` |
+| UnntasKlassifisering | `exclude_class` |
+| Operator | `operator` |
+| Verdi | `value` |
+| Listenavn | `list_name` |
+| Enhet | `unit` |
+| Provenr | `sample_no` |
+| Deteksjonsgrense | `lod` |
+| Kvantifiseringsgrense | `loq` |
+| Opprinnelse | `origin` |
+| Ant_verdier | `n_values` |
+| Kommentar | `comment` |
+| Arkiv | `archive` |
+| Produktbeskrivelse | `product_desc` |
+| UTM33 Ost (X) | `utm33_x` |
+| UTM33 Nord (Y) | `utm33_y` |
+
+## 2. Data Cleaning and Value Conversion
+
+After renaming the columns, the internal row values must be cleaned and translated. The data cleaning process addresses several inconsistencies in the raw data:
+
+* **Handling Missing Entities:** Missing (`NA`) values in `contractor` are replaced with `"Unknown"`. For `client`, missing values or placeholders like `"0"` are also replaced with `"Unknown"`.
+* **Standardizing Methods:** Missing values or the Norwegian word `"UKJENT"` (Unknown) in `sample_method` and `analysis_method` are standardized to `"Unknown"`.
+* **Fixing Depth Variables:** Missing values (`NA`) in `upper_depth` and `lower_depth` are assumed to be surface level and set to `0.0`. The column types are safely coerced to numeric.
+* **Boolean Conversions:**
+  * The `is_filtered` column is evaluated: if the value is `"Filtrert"` (Filtered), it is converted to `TRUE`; otherwise, `FALSE`. The result is saved to a new `filtered` column.
+  * The `archive` column uses `"j"` (for *ja*, meaning yes). This is converted to a standard `TRUE`/`FALSE` boolean.
+* **Translating Parameters:** The Norwegian chemical parameter names in `param_name` are mapped to their English equivalents (e.g., *Kobber* to *Copper*, *Sink* to *Zinc*).

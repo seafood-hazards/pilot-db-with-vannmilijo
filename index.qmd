@@ -41,7 +41,7 @@ read_tsv("./.data/vannmiljo_activities.tsv.gz") %>%
 After creating the ER (Entity–Relationship) diagram, the tables were implemented in a single SQLite file containing 10 tables. All required data were extracted from the Vannmiljø export file and imported into the corresponding tables.
 
 - See the [DB Schema](./db-schema.qmd) page for details on the database architecture.
-- See the [Data Preparation](./data_preparation.qmd) page for the data preparation methods used prior to importing the Vannmiljø dataset.
+- See the [Data Preparation](./data-preparation.qmd) page for the data preparation process used prior to importing the Vannmiljø dataset.
 
 ## Geospatial Analysis
 
