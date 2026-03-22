@@ -12,6 +12,14 @@ website:
         menu:
           - text: "DB Schema"
             href: db-schema.qmd
+      - text: "Geospatial Analysis"
+        menu:
+          - text: "Distance to Coast"
+            href: distance-to-coast.qmd
+          - text: "Location Names"
+            href: location-names.qmd
+          - text: "Interactive Map"
+            href: distance-interactive-map.qmd
 
 format:
   html:
