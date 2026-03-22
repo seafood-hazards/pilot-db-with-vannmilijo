@@ -1,0 +1,90 @@
+---
+title: "Data Export"
+subtitle: A dataset file exported from the pilot database
+---
+
+The data file was created for the initial analysis using the Vannmiljø data.
+
+## Data Availability
+
+A tab-delimited file containing all major data from the database is available for download at the following location.
+
+ * [pilot_vannmiljo.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.1/pilot_vannmiljo.tsv.gz)
+
+## Data File Summary
+
+The file `pilot_vannmiljo.tsv.gz` is a denormalized (flat) export of the relational database, designed to facilitate immediate analysis without requiring complex SQL joins.
+
+## Column Definition
+
+```{r}
+library(tibble)
+
+# Definition of the exported TSV columns and their sources
+exported_columns_tbl <- tibble(
+  `Column Name` = c(
+    # Activity Metadata
+    "activity_id", "activity_name",
+
+    # Site Metadata
+    "site_code", "site_name", "lon", "lat", "dist_to_coast",
+    "country", "country_code", "municipality", "sea_name",
+
+    # Sample Metadata
+    "sample_time", "upper_depth", "lower_depth", "sample_no", "n_values",
+
+    # Parameter Metadata
+    "param_id", "param_name",
+
+    # Methods
+    "method", "analysis",
+
+    # Chemistry / Measurement Data
+    "value", "unit", "operator",
+
+    # Limits of Detection/Quantification
+    "lod", "loq"
+  ),
+
+  `Source Table` = c(
+    "Activity", "Activity",
+    "Site", "Site", "Site", "Site", "Site",
+    "Site", "Site", "Site", "Site",
+    "Sample", "Sample", "Sample", "Sediment", "Sediment",
+    "Parameter", "Parameter",
+    "Sample Method", "Analysis Method",
+    "Sediment", "Analysis Method", "Sediment",
+    "LLD (Filtered)", "LLD (Filtered)"
+  ),
+
+  `Description` = c(
+    "Unique identifier for the activity/monitoring program",
+    "Name of the activity or monitoring program",
+    "Unique code for the sampling site",
+    "Name of the sampling location",
+    "Longitude coordinate (decimal degrees)",
+    "Latitude coordinate (decimal degrees)",
+    "Distance to the nearest coastline",
+    "Country name",
+    "Country code",
+    "Municipality name",
+    "Name of the sea or coastal water body",
+    "Date and time when the sample was collected",
+    "Upper depth of the sampled interval",
+    "Lower depth of the sampled interval",
+    "Physical sample identification number",
+    "Number of values or replicates used to derive the measurement",
+    "Unique identifier for the chemical parameter",
+    "Name of the chemical parameter measured",
+    "Method or equipment used to take the sample",
+    "Laboratory analysis method used",
+    "Measured concentration or numerical result",
+    "Unit of measurement for the value",
+    "Mathematical operator (e.g., <, =) indicating if value is below detection limits",
+    "Limit of Detection (LOD) value",
+    "Limit of Quantification (LOQ) value"
+  )
+)
+
+exported_columns_tbl
+```
