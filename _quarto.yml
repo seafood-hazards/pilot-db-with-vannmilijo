@@ -22,6 +22,10 @@ website:
             href: location-names.qmd
           - text: "Interactive Map"
             href: distance-interactive-map.qmd
+      - text: "Data Export"
+        menu:
+          - text: "Export to Tabular File"
+            href: data-export.qmd
       - text: "Tools"
         menu:
           - text: "Pilot DB Viewer"
