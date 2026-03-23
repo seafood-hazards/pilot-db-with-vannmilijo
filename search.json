@@ -1,0 +1,310 @@
+[
+  {
+    "objectID": "distance-interactive-map.html",
+    "href": "distance-interactive-map.html",
+    "title": "Interactive Map of Core Locations",
+    "section": "",
+    "text": "NoteNote on Distance Accuracy\n\n\n\nCalculated distances represent the shortest Euclidean path to the nearest coastline geometry (GSHHG dataset).\nWhile the data is projected (EPSG:3035) to minimize distortion at high latitudes, please interpret these values as estimates. In areas with complex topography—such as narrow fjords or dense archipelagos—the resolution of the coastline vector data may result in minor deviations from real-world measurements."
+  },
+  {
+    "objectID": "distance-interactive-map.html#interactive-map",
+    "href": "distance-interactive-map.html#interactive-map",
+    "title": "Interactive Map of Core Locations",
+    "section": "Interactive Map",
+    "text": "Interactive Map\nThe map below displays the spatial distribution of sediment cores. The markers are color-coded based on their distance from the nearest Norwegian coastline.\nHow to use this map:\n\nZoom and Pan to explore specific coastal areas or offshore regions.\nClick the Globe icon   to reset the view.\nFilter the data by toggling distance categories in the top-right menu (e.g., uncheck boxes to hide specific ranges).\nUse the Legend in the bottom right to interpret the color coding.\nHover over a point to quickly identify the Cruise ID and Core ID.\nClick on a marker to view exact coordinates, distance to shore (in km), and location names."
+  },
+  {
+    "objectID": "distance-to-coast.html",
+    "href": "distance-to-coast.html",
+    "title": "Distance Calculation",
+    "section": "",
+    "text": "As the initial data analysis will be performed on the Vannmiljø sites located within Norwegian fjords and surrounding areas near the Norwegian coastline, the distances to the nearest coastline were calculated.\nThe distance data is available in the dist_to_coast column of the Site table."
+  },
+  {
+    "objectID": "distance-to-coast.html#sediment-sites",
+    "href": "distance-to-coast.html#sediment-sites",
+    "title": "Distance Calculation",
+    "section": "Sediment Sites",
+    "text": "Sediment Sites\n\nDistance Calculation\n\n\n\nCount of Four Groups\nThe table summarises how many observations fall into each of the four groups, broken down by distance categories.\n\n\n\n\n\n\nDistance\n# Sediment Cores\n\n\n\n\n0 to 10km\n20710\n\n\n10 to 30km\n40\n\n\n30 to 100km\n130\n\n\n≥100km\n143"
+  },
+  {
+    "objectID": "distance-to-coast.html#methods",
+    "href": "distance-to-coast.html#methods",
+    "title": "Distance Calculation",
+    "section": "Methods",
+    "text": "Methods\nCoastline data were derived from the Global Self-consistent, Hierarchical, High-resolution Geography (GSHHG) database. High-resolution shoreline polygons were extracted for the region covering the Norwegian mainland and the Svalbard archipelago. The coastline geometry was cleaned and filtered to ensure topological validity before calculation.\nTo ensure accurate measurements at high latitudes, where standard global projections (like Mercator) distort distances, all spatial data were projected to the ETRS89-extended Lambert Azimuthal Equal Area projection (EPSG:3035). This Coordinate Reference System is the standard for pan-European statistical mapping and minimizes distortion across the region. The shortest Euclidean distance from each sampling (core) site to the nearest Norwegian coastline geometry was then calculated in meters.\nThe calculation was performed using the sf library in R."
+  },
+  {
+    "objectID": "db-schema.html",
+    "href": "db-schema.html",
+    "title": "DB Schema",
+    "section": "",
+    "text": "The page shows the database schema diagram along with table definitions based on the Vannmiljø dataset."
+  },
+  {
+    "objectID": "db-schema.html#db-schema-diagram",
+    "href": "db-schema.html#db-schema-diagram",
+    "title": "DB Schema",
+    "section": "DB Schema Diagram",
+    "text": "DB Schema Diagram\nThe proposed database design shown in the ER (Entity Relationship) diagram below contains 10 tables including three meta (entity) tables, four variable (look-up or reference) tables, one fact (measurement) table, and two mixed tables.\nThe columns with PK in the diagram indicate primary keys of the table, which guarantees unique identifications."
+  },
+  {
+    "objectID": "db-schema.html#activity-table",
+    "href": "db-schema.html#activity-table",
+    "title": "DB Schema",
+    "section": "Activity Table",
+    "text": "Activity Table\nThe activity table contains the monitoring programs or projects associated with the samples.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nactivity_id\nTEXT\n✓\nFALSE\nPrimary Key. Unique identifier for the activity/monitoring program.\n\n\nactivity_name\nTEXT\n\nFALSE\nName of the monitoring program or project."
+  },
+  {
+    "objectID": "db-schema.html#client-table",
+    "href": "db-schema.html#client-table",
+    "title": "DB Schema",
+    "section": "Client Table",
+    "text": "Client Table\nThe client table stores information about the entities (e.g., municipalities, environmental agencies) that commissioned the data collection.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nclient_id\nINTEGER\n✓\nFALSE\nPrimary Key. Unique identifier for the client.\n\n\nclient\nTEXT\n\nFALSE\nName of the client or commissioner.\n\n\narchive\nBOOLEAN\n\nFALSE\nFlag indicating if the record is archived."
+  },
+  {
+    "objectID": "db-schema.html#contractor-table",
+    "href": "db-schema.html#contractor-table",
+    "title": "DB Schema",
+    "section": "Contractor Table",
+    "text": "Contractor Table\nThe contractor table identifies the laboratories or institutes that performed the sampling or analysis.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\ncontractor_id\nINTEGER\n✓\nFALSE\nPrimary Key. Unique identifier for the contractor.\n\n\ncontractor\nTEXT\n\nFALSE\nName of the contractor (e.g., NIVA, Analycen)."
+  },
+  {
+    "objectID": "db-schema.html#site-table",
+    "href": "db-schema.html#site-table",
+    "title": "DB Schema",
+    "section": "Site Table",
+    "text": "Site Table\nThe site table holds geographical and administrative details about the sampling locations.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nsite_code\nTEXT\n✓\nFALSE\nPrimary Key. Unique code for the sampling site.\n\n\nsite_name\nTEXT\n\nTRUE\nName of the sampling location.\n\n\nlabel\nTEXT\n\nTRUE\nAdditional designation or label for the site.\n\n\nlon\nREAL\n\nFALSE\nLongitude coordinate.\n\n\nlat\nREAL\n\nFALSE\nLatitude coordinate.\n\n\ndist_to_coast\nREAL\n\nTRUE\nDistance to the coast.\n\n\ncountry\nTEXT\n\nTRUE\nCountry name.\n\n\ncountry_code\nTEXT\n\nTRUE\nCountry code (e.g., NO).\n\n\nmunicipality\nTEXT\n\nTRUE\nMunicipality name.\n\n\nsea_name\nTEXT\n\nTRUE\nName of the sea or coastal water body."
+  },
+  {
+    "objectID": "db-schema.html#sample-method-table",
+    "href": "db-schema.html#sample-method-table",
+    "title": "DB Schema",
+    "section": "Sample Method Table",
+    "text": "Sample Method Table\nThe sample_method table catalogs the different techniques and equipment used to collect samples.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nmethod_id\nINTEGER\n✓\nFALSE\nPrimary Key. Unique identifier for the sampling method.\n\n\nmethod\nTEXT\n\nFALSE\nDescription or standard code for the sampling method."
+  },
+  {
+    "objectID": "db-schema.html#analysis-method-table",
+    "href": "db-schema.html#analysis-method-table",
+    "title": "DB Schema",
+    "section": "Analysis Method Table",
+    "text": "Analysis Method Table\nThe analysis_method table contains the laboratory procedures and units used to analyze the parameters.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nanalysis_id\nINTEGER\n✓\nFALSE\nPrimary Key. Unique identifier for the analysis method.\n\n\nanalysis\nTEXT\n\nFALSE\nDescription or standard code of the analysis method.\n\n\nunit\nTEXT\n\nFALSE\nUnit of measurement for the analysis results."
+  },
+  {
+    "objectID": "db-schema.html#parameter-table",
+    "href": "db-schema.html#parameter-table",
+    "title": "DB Schema",
+    "section": "Parameter Table",
+    "text": "Parameter Table\nThe parameter table defines the chemicals or properties being measured.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nparam_id\nTEXT\n✓\nFALSE\nPrimary Key. Unique code for the parameter.\n\n\nparam_name\nTEXT\n\nFALSE\nName of the chemical or measured property.\n\n\ncas_no\nTEXT\n\nTRUE\nChemical Abstracts Service (CAS) registry number."
+  },
+  {
+    "objectID": "db-schema.html#sample-table",
+    "href": "db-schema.html#sample-table",
+    "title": "DB Schema",
+    "section": "Sample Table",
+    "text": "Sample Table\nThe sample table records the core metadata for each physical sample collected, tying together locations, methods, and actors.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nsample_id\nTEXT\n✓\nFALSE\nPrimary Key. Unique identifier for the sample.\n\n\nactivity_id\nTEXT\n\nFALSE\nForeign Key to activity table.\n\n\nsite_code\nTEXT\n\nFALSE\nForeign Key to site table.\n\n\nclient_id\nINTEGER\n\nFALSE\nForeign Key to client table.\n\n\ncontractor_id\nINTEGER\n\nFALSE\nForeign Key to contractor table.\n\n\nmethod_id\nINTEGER\n\nFALSE\nForeign Key to sample_method table.\n\n\nupper_depth\nREAL\n\nFALSE\nUpper depth of the sample.\n\n\nlower_depth\nREAL\n\nFALSE\nLower depth of the sample.\n\n\nsample_time\nTEXT\n\nTRUE\nTimestamp of when the sample was collected.\n\n\nfiltered\nBOOLEAN\n\nTRUE\nIndicates whether the sample was filtered."
+  },
+  {
+    "objectID": "db-schema.html#sediment-table",
+    "href": "db-schema.html#sediment-table",
+    "title": "DB Schema",
+    "section": "Sediment Table",
+    "text": "Sediment Table\nThe sediment table stores the actual measurement values for the parameters analyzed in each sample.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nsample_id\nTEXT\n✓\nFALSE\nPrimary Key. Foreign Key to sample table.\n\n\nparam_id\nTEXT\n✓\nFALSE\nPrimary Key. Foreign Key to parameter table.\n\n\nsediment_no\nINTEGER\n✓\nFALSE\nPrimary Key. Sequential index for multiple records per sample-parameter combination.\n\n\nanalysis_id\nINTEGER\n\nFALSE\nForeign Key to analysis_method table.\n\n\nvalue\nREAL\n\nFALSE\nThe measured concentration or numerical result.\n\n\noperator\nTEXT\n\nTRUE\nMathematical operator (e.g., &lt;, =, &gt;), indicating LLD.\n\n\nsample_no\nTEXT\n\nTRUE\nPhysical sample identification number.\n\n\nn_values\nINTEGER\n\nTRUE\nNumber of values/replicates used to derive the measurement."
+  },
+  {
+    "objectID": "db-schema.html#lld-limits-of-detection-table",
+    "href": "db-schema.html#lld-limits-of-detection-table",
+    "title": "DB Schema",
+    "section": "LLD (Limits of Detection) Table",
+    "text": "LLD (Limits of Detection) Table\nThe lld table contains Limit of Detection (LOD) and Limit of Quantification (LOQ) data corresponding to specific measurements.\n\nTable Columns\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nData Type\nPK\nNA Allowed\nDescription\n\n\n\n\nsample_id\nTEXT\n✓\nFALSE\nPrimary Key. Foreign Key to sediment table.\n\n\nparam_id\nTEXT\n✓\nFALSE\nPrimary Key. Foreign Key to sediment table.\n\n\nsediment_no\nINTEGER\n✓\nFALSE\nPrimary Key. Foreign Key to sediment table.\n\n\ntype\nTEXT\n✓\nFALSE\nPrimary Key. Type of limit (e.g., LOD or LOQ).\n\n\nvalue\nREAL\n\nFALSE\nNumerical value of the detection/quantification limit."
+  },
+  {
+    "objectID": "data-preparation.html",
+    "href": "data-preparation.html",
+    "title": "Data Preparation",
+    "section": "",
+    "text": "This page outlines the data preparation steps required to standardize the Vannmiljø dataset. The original dataset contains Norwegian terminology and various missing (NA) values. Our goal is to translate the names into English, enforce consistent snake_case naming conventions, and handle missing or inconsistent values appropriately."
+  },
+  {
+    "objectID": "data-preparation.html#column-name-translation",
+    "href": "data-preparation.html#column-name-translation",
+    "title": "Data Preparation",
+    "section": "1. Column Name Translation",
+    "text": "1. Column Name Translation\nThe first step in the data preparation process is renaming the columns. The original Norwegian column names (often CamelCase or mixed) are converted to standardized, lowercase English snake_case names. This makes the dataset much easier to work with in R and SQL.\nThe table below shows the exact mapping from the original column names to the new column names:\n\n\n\nOriginal Norwegian Name (old)\nNew English Name (new)\n\n\n\n\nVannlokalitet_kode\nsite_code\n\n\nVannlokalitetsnavn\nsite_name\n\n\nBetegnelse\nlabel\n\n\nType\nsite_type\n\n\nAktivitet_id\nactivity_id\n\n\nAktivitet_navn\nactivity_name\n\n\nOppdragsgiver\nclient\n\n\nOppdragstaker\ncontractor\n\n\nParameter_id\nparam_id\n\n\nParameter_navn\nparam_name\n\n\nParameter_casnr\ncas_no\n\n\nMedium_id\nmedium_id\n\n\nMedium_navn\nmedium_name\n\n\nLatinskNavn_id\ntaxon_id\n\n\nVitenskapligNavn\nscientific_name\n\n\nProvetakmetode_id\nsample_method\n\n\nAnalysemetode_id\nanalysis_method\n\n\nTid_provetak\nsample_time\n\n\nOvre_dyp\nupper_depth\n\n\nNedre_dyp\nlower_depth\n\n\nDybdeEnhet\ndepth_unit\n\n\nFiltrert_Prove\nis_filtered\n\n\nUnntasKlassifisering\nexclude_class\n\n\nOperator\noperator\n\n\nVerdi\nvalue\n\n\nListenavn\nlist_name\n\n\nEnhet\nunit\n\n\nProvenr\nsample_no\n\n\nDeteksjonsgrense\nlod\n\n\nKvantifiseringsgrense\nloq\n\n\nOpprinnelse\norigin\n\n\nAnt_verdier\nn_values\n\n\nKommentar\ncomment\n\n\nArkiv\narchive\n\n\nProduktbeskrivelse\nproduct_desc\n\n\nUTM33 Ost (X)\nutm33_x\n\n\nUTM33 Nord (Y)\nutm33_y"
+  },
+  {
+    "objectID": "data-preparation.html#data-cleaning-and-value-conversion",
+    "href": "data-preparation.html#data-cleaning-and-value-conversion",
+    "title": "Data Preparation",
+    "section": "2. Data Cleaning and Value Conversion",
+    "text": "2. Data Cleaning and Value Conversion\nAfter renaming the columns, the internal row values must be cleaned and translated. The data cleaning process addresses several inconsistencies in the raw data:\n\nHandling Missing Entities: Missing (NA) values in contractor are replaced with \"Unknown\". For client, missing values or placeholders like \"0\" are also replaced with \"Unknown\".\nStandardizing Methods: Missing values or the Norwegian word \"UKJENT\" (Unknown) in sample_method and analysis_method are standardized to \"Unknown\".\nFixing Depth Variables: Missing values (NA) in upper_depth and lower_depth are assumed to be surface level and set to 0.0. The column types are safely coerced to numeric.\nBoolean Conversions:\n\nThe is_filtered column is evaluated: if the value is \"Filtrert\" (Filtered), it is converted to TRUE; otherwise, FALSE. The result is saved to a new filtered column.\nThe archive column uses \"j\" (for ja, meaning yes). This is converted to a standard TRUE/FALSE boolean.\n\nTranslating Parameters: The Norwegian chemical parameter names in param_name are mapped to their English equivalents (e.g., Kobber to Copper, Sink to Zinc)."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Vannmiljø Pilot Database",
+    "section": "",
+    "text": "This site presents the initial version of the database design and its potential applications using the publicly available Vannmiljø dataset."
+  },
+  {
+    "objectID": "index.html#source-data",
+    "href": "index.html#source-data",
+    "title": "Vannmiljø Pilot Database",
+    "section": "Source Data",
+    "text": "Source Data\n\nData search page at Vannmiljø: Søk i vannrelaterte data\n\n\nSearch criteria\n\nMedium\n\nSediment saltvann\n\n\n\nParameter\n\nKobber\nSink\nMangan\nKobolt\nMolybden\nSelen\n\n\n\n\nCount of Sampling Sites\nThe table below summarizes the number of sampling sites documented across 27 activities and projects between 1975 and 2025."
+  },
+  {
+    "objectID": "index.html#database-design-and-creation",
+    "href": "index.html#database-design-and-creation",
+    "title": "Vannmiljø Pilot Database",
+    "section": "Database Design and Creation",
+    "text": "Database Design and Creation\nAfter creating the ER (Entity–Relationship) diagram, the tables were implemented in a single SQLite file containing 10 tables. All required data were extracted from the Vannmiljø export file and imported into the corresponding tables.\n\nSee the DB Schema page for details on the database architecture.\nSee the Data Preparation page for the data preparation process used prior to importing the Vannmiljø dataset."
+  },
+  {
+    "objectID": "index.html#geospatial-analysis",
+    "href": "index.html#geospatial-analysis",
+    "title": "Vannmiljø Pilot Database",
+    "section": "Geospatial Analysis",
+    "text": "Geospatial Analysis\nTo facilitate efficient core and sample selection, distances to the nearest coastline were calculated for the Vannmiljø data. In addition, the nearest country and municipality, as well as the sea and ocean names, were identified based on the core locations.\n\nSee the Distance Calculation page for the methods and results of calculating the distance to the nearest coastline.\nSee the Location Names page for the estimation of location names from geographic coordinates.\nSee the Interactive Map page for an interactive visualization of core locations with meta-information."
+  },
+  {
+    "objectID": "index.html#data-export",
+    "href": "index.html#data-export",
+    "title": "Vannmiljø Pilot Database",
+    "section": "Data Export",
+    "text": "Data Export\nData can be exported for both exploration and submission purposes.\n\nSee the Export to Tabular File page for a description of a single tabular file format (.tsv.gz) that is extracted and merged from all database tables for data exploration."
+  },
+  {
+    "objectID": "index.html#tools",
+    "href": "index.html#tools",
+    "title": "Vannmiljø Pilot Database",
+    "section": "Tools",
+    "text": "Tools\n\nSee the Pilot DB Viewer page for a read-only view of the pilot database."
+  },
+  {
+    "objectID": "data-export.html",
+    "href": "data-export.html",
+    "title": "Data Export",
+    "section": "",
+    "text": "The data file was created for the initial analysis using the Vannmiljø data."
+  },
+  {
+    "objectID": "data-export.html#data-availability",
+    "href": "data-export.html#data-availability",
+    "title": "Data Export",
+    "section": "Data Availability",
+    "text": "Data Availability\nA tab-delimited file containing all major data from the database is available for download at the following location.\n\npilot_vannmiljo.tsv.gz"
+  },
+  {
+    "objectID": "data-export.html#data-file-summary",
+    "href": "data-export.html#data-file-summary",
+    "title": "Data Export",
+    "section": "Data File Summary",
+    "text": "Data File Summary\nThe file pilot_vannmiljo.tsv.gz is a denormalized (flat) export of the relational database, designed to facilitate immediate analysis without requiring complex SQL joins."
+  },
+  {
+    "objectID": "data-export.html#column-definition",
+    "href": "data-export.html#column-definition",
+    "title": "Data Export",
+    "section": "Column Definition",
+    "text": "Column Definition\n\n\n\n\n\n\n\n\n\n\n\nColumn Name\nSource Table\nDescription\n\n\n\n\nactivity_id\nActivity\nUnique identifier for the activity/monitoring program\n\n\nactivity_name\nActivity\nName of the activity or monitoring program\n\n\nsite_code\nSite\nUnique code for the sampling site\n\n\nsite_name\nSite\nName of the sampling location\n\n\nlon\nSite\nLongitude coordinate (decimal degrees)\n\n\nlat\nSite\nLatitude coordinate (decimal degrees)\n\n\ndist_to_coast\nSite\nDistance to the nearest coastline\n\n\ncountry\nSite\nCountry name\n\n\ncountry_code\nSite\nCountry code\n\n\nmunicipality\nSite\nMunicipality name\n\n\nsea_name\nSite\nName of the sea or coastal water body\n\n\nsample_time\nSample\nDate and time when the sample was collected\n\n\nupper_depth\nSample\nUpper depth of the sampled interval\n\n\nlower_depth\nSample\nLower depth of the sampled interval\n\n\nsample_no\nSediment\nPhysical sample identification number\n\n\nn_values\nSediment\nNumber of values or replicates used to derive the measurement\n\n\nparam_id\nParameter\nUnique identifier for the chemical parameter\n\n\nparam_name\nParameter\nName of the chemical parameter measured\n\n\nmethod\nSample Method\nMethod or equipment used to take the sample\n\n\nanalysis\nAnalysis Method\nLaboratory analysis method used\n\n\nvalue\nSediment\nMeasured concentration or numerical result\n\n\nunit\nAnalysis Method\nUnit of measurement for the value\n\n\noperator\nSediment\nMathematical operator (e.g., &lt;, =) indicating if value is below detection limits\n\n\nlod\nLLD (Filtered)\nLimit of Detection (LOD) value\n\n\nloq\nLLD (Filtered)\nLimit of Quantification (LOQ) value"
+  },
+  {
+    "objectID": "CHANGELOG.html",
+    "href": "CHANGELOG.html",
+    "title": "Changelog",
+    "section": "",
+    "text": "All notable changes to this project will be documented in this file.\nThe format is based on Keep a Changelog. As this project is still in active development, it does not yet strictly adhere to Semantic Versioning.\n\n\n\n\n\n\n\n\nActivity summary table removed\n\n\n\n\n\n\n\n\nDT count talbe in the landing page\n\n\n\n\n\n\n\n\nrenv lock file\n\n\n\n\n\n\n\n\nAll basic Quarto pages\n\n\n\n\n\n\n\n\nRepo and project name\n\n\n\n\n\n\n\n\nInitial Quarto pages for home and db schema"
+  },
+  {
+    "objectID": "CHANGELOG.html#section",
+    "href": "CHANGELOG.html#section",
+    "title": "Changelog",
+    "section": "",
+    "text": "Activity summary table removed"
+  },
+  {
+    "objectID": "CHANGELOG.html#section-1",
+    "href": "CHANGELOG.html#section-1",
+    "title": "Changelog",
+    "section": "",
+    "text": "DT count talbe in the landing page"
+  },
+  {
+    "objectID": "CHANGELOG.html#section-2",
+    "href": "CHANGELOG.html#section-2",
+    "title": "Changelog",
+    "section": "",
+    "text": "renv lock file"
+  },
+  {
+    "objectID": "CHANGELOG.html#section-3",
+    "href": "CHANGELOG.html#section-3",
+    "title": "Changelog",
+    "section": "",
+    "text": "All basic Quarto pages"
+  },
+  {
+    "objectID": "CHANGELOG.html#section-4",
+    "href": "CHANGELOG.html#section-4",
+    "title": "Changelog",
+    "section": "",
+    "text": "Repo and project name"
+  },
+  {
+    "objectID": "CHANGELOG.html#section-5",
+    "href": "CHANGELOG.html#section-5",
+    "title": "Changelog",
+    "section": "",
+    "text": "Initial Quarto pages for home and db schema"
+  },
+  {
+    "objectID": "pilot-db-viewer.html",
+    "href": "pilot-db-viewer.html",
+    "title": "Pilot Database Viewer",
+    "section": "",
+    "text": "This page provides a read-only view of the pilot database. Select a table from the dropdown menu below to view the data.\n\n\n\ndb = FileAttachment(\"pilot_vannmiljo.sqlite\").sqlite()\n\n// 2. Get Table Names\ntables_query = db.query(\"SELECT name FROM sqlite_schema WHERE type='table' AND name NOT LIKE 'sqlite_%'\")\ntable_names = tables_query.map(row =&gt; row.name)\n\n// 3. Table Selector\nviewof selected_table = Inputs.select(table_names, {\n  label: \"Select Table:\",\n  value: table_names[0]\n})\n\n// 4. Rows Per Page Selector\nviewof pageSize = Inputs.select([10, 20, 50, 100], {\n  label: \"Rows per page:\",\n  value: 20\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncount_result = db.query(`SELECT COUNT(*) as total FROM \"${selected_table}\"`)\ntotal_rows = count_result[0].total\nmax_page = Math.ceil(total_rows / pageSize)\n\n// 6. Page Slider\nviewof currentPage = Inputs.range([1, max_page], {\n  label: \"Page number:\", \n  step: 1, \n  value: 1\n})\n\n// Summary Text\nmd`**Page ${currentPage}** of ${max_page} &nbsp;*(Total rows: ${total_rows})*`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\noffset = (currentPage - 1) * pageSize\ndata_paged = db.query(`SELECT * FROM \"${selected_table}\" LIMIT ${pageSize} OFFSET ${offset}`)\n\n// 8. Display Table\nInputs.table(data_paged, {\n  layout: \"auto\",\n  rows: pageSize,\n  format: {\n    year: d3.format(\"d\"),\n    start_year: d3.format(\"d\"),\n    end_year: d3.format(\"d\")\n  }\n})"
+  },
+  {
+    "objectID": "location-names.html",
+    "href": "location-names.html",
+    "title": "Estimation of Location Names",
+    "section": "",
+    "text": "A common challenge in oceanographic datasets is missing or inconsistent location metadata. While sediment core data usually come with coordinates (latitude and longitude), fields such as the Nearest Country and the Nearest Municipality are often left blank or recorded inconsistently.\nTo ensure consistency across the dataset, we algorithmically estimated these fields based on the core’s location. This page outlines the data sources and geospatial methods used to populate the country, municipality, and sea_name columns in the Core table.\n\n\n\n\n\n\nNoteNote on Accuracy\n\n\n\nThese values are algorithmic estimates based on geometric proximity. They may differ from historical logbooks or specific political definitions of maritime borders."
+  },
+  {
+    "objectID": "location-names.html#overview",
+    "href": "location-names.html#overview",
+    "title": "Estimation of Location Names",
+    "section": "",
+    "text": "A common challenge in oceanographic datasets is missing or inconsistent location metadata. While sediment core data usually come with coordinates (latitude and longitude), fields such as the Nearest Country and the Nearest Municipality are often left blank or recorded inconsistently.\nTo ensure consistency across the dataset, we algorithmically estimated these fields based on the core’s location. This page outlines the data sources and geospatial methods used to populate the country, municipality, and sea_name columns in the Core table.\n\n\n\n\n\n\nNoteNote on Accuracy\n\n\n\nThese values are algorithmic estimates based on geometric proximity. They may differ from historical logbooks or specific political definitions of maritime borders."
+  },
+  {
+    "objectID": "location-names.html#nearest-country",
+    "href": "location-names.html#nearest-country",
+    "title": "Estimation of Location Names",
+    "section": "Nearest Country",
+    "text": "Nearest Country\nSince sediment cores are taken underwater, they do not technically belong “inside” a country’s land border. To identify the associated nation, we used a “Nearest Neighbor” analysis.\n\nConcept: For every point in the ocean, we calculated the straight-line distance to the coastlines of all surrounding nations. The country with the shortest distance was assigned to the core.\nData Source: We used the Natural Earth dataset (via the rnaturalearth R package). This provides a standardized, moderate-resolution map of global country boundaries suitable for identifying the nearest sovereign nation."
+  },
+  {
+    "objectID": "location-names.html#nearest-municipality",
+    "href": "location-names.html#nearest-municipality",
+    "title": "Estimation of Location Names",
+    "section": "Nearest Municipality",
+    "text": "Nearest Municipality\nFor higher-resolution analysis, identifying the country is not enough. We also estimated the Nearest Municipality (Local Administrative Unit) to provide granular context.\n\nConcept: Similar to the country estimation, this uses a “Nearest Neighbor” approach but requires much more detailed maps that include islands and complex coastal administrative borders.\nData Source: We utilized the Eurostat GISCO database (via the giscoR R package). This provides official administrative boundaries for European countries down to the municipal level (LAU - Local Administrative Units)."
+  },
+  {
+    "objectID": "location-names.html#sea-ocean-names",
+    "href": "location-names.html#sea-ocean-names",
+    "title": "Estimation of Location Names",
+    "section": "Sea & Ocean Names",
+    "text": "Sea & Ocean Names\nTo determine which body of water a core was taken from (e.g., “Barents Sea” vs. “Norwegian Sea”), we used the “Point-in-Polygon” method.\n\nConcept: Imagine drawing official boundaries on a map. We simply check which boundary “box” each sediment core falls inside.\nData Source: We utilized the International Hydrographic Organization (IHO) Sea Areas v3. This is the globally accepted standard for defining the limits of oceans and seas.\nMethod: The specific boundaries were downloaded directly from the Marine Regions estimation service. If a core was located slightly “inland” due to map resolution issues (common in narrow fjords), it was assigned to the nearest adjacent sea body."
+  },
+  {
+    "objectID": "location-names.html#summary-of-data-sources",
+    "href": "location-names.html#summary-of-data-sources",
+    "title": "Estimation of Location Names",
+    "section": "Summary of Data Sources",
+    "text": "Summary of Data Sources\n\n\n\n\n\n\n\n\n\nField\nEstimation Method\nData Source\nR Package / Tool\n\n\n\n\nNearest Country\nNearest Neighbor\nNatural Earth\nrnaturalearth\n\n\nMunicipality\nNearest Neighbor\nEurostat GISCO\ngiscoR\n\n\nSea Name\nSpatial Join\nIHO Sea Areas v3\nsf (Direct WFS)"
+  }
+]
