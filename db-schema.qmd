@@ -282,19 +282,19 @@ The `sediment` table stores the actual measurement values for the parameters ana
 sediment_tbl <- tibble(
   `Name` = c(
     "sample_id", "param_id", "sediment_no", "analysis_id",
-    "value", "operator", "sample_no", "n_values"
+    "value", "unit", "operator", "sample_no", "n_values"
   ),
   `Data Type` = c(
     "TEXT", "TEXT", "INTEGER", "INTEGER",
-    "REAL", "TEXT", "TEXT", "INTEGER"
+    "REAL", "TEXT", "TEXT", "TEXT", "INTEGER"
   ),
   `PK` = c(
     "✓", "✓", "✓", "",
-    "", "", "", ""
+    "", "", "", "", ""
   ),
   `NA Allowed` = c(
     FALSE, FALSE, FALSE, FALSE,
-    FALSE, TRUE, TRUE, TRUE
+    FALSE, FALSE, TRUE, TRUE, TRUE
   ),
   `Description` = c(
     "Primary Key. Foreign Key to sample table.",
@@ -302,6 +302,7 @@ sediment_tbl <- tibble(
     "Primary Key. Sequential index for multiple records per sample-parameter combination.",
     "Foreign Key to analysis_method table.",
     "The measured concentration or numerical result.",
+    "Unit of measurement for the analysis results.",
     "Mathematical operator (e.g., <, =, >), indicating LLD.",
     "Physical sample identification number.",
     "Number of values/replicates used to derive the measurement."
