@@ -30,7 +30,7 @@ library(tidyverse)
 library(DT)
 
 # 1. Define the URL for the data file
-data_file_url <- "https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.4/pilot_vannmiljo_all.tsv.gz"
+data_file_url <- "https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.5/pilot_vannmiljo_all.tsv.gz"
 local_data_file_name <- "pilot_vannmiljo_all.tsv.gz"
 
 # 2. Download Logic
