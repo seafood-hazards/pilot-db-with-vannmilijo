@@ -1,5 +1,9 @@
 project:
   type: website
+  pre-render: download_resources.R
+  resources:
+    - pilot_vannmiljo.sqlite
+    - libs/sqljs/
 
 website:
   title: "Vannmiljø Pilot"
