@@ -19,25 +19,15 @@ table { width: 100%; }
 ```{ojs}
 //| panel: sidebar
 
-// ── 1. Open the database ──────────────────────────────────────────────────
-// sql.js and the SQLite file are both served from this site — no CDN,
-// no cross-origin requests, no CORS issues.
+// ── 1. Open the database via stratum-sqlite ───────────────────────────────
+// Await the library Promise set by header.html before calling open(),
+// guaranteeing the library is fully loaded regardless of OJS eval order.
 db = {
-  const SqlJs    = await window._sqlJsReady;
-  const response = await fetch(window._dbPath);
-  if (!response.ok) throw new Error(`DB fetch failed: ${response.status} ${window._dbPath}`);
-  const raw = new SqlJs.Database(new Uint8Array(await response.arrayBuffer()));
-
-  return {
-    query: (sql) => {
-      const results = raw.exec(sql);
-      if (!results.length) return [];
-      const { columns, values } = results[0];
-      return values.map(row =>
-        Object.fromEntries(columns.map((col, i) => [col, row[i]]))
-      );
-    }
-  };
+  const StratumSQLite = await window._stratumSQLite;
+  return StratumSQLite.open(window._dbPath, {
+    sqlJsPath: window._sqljsBase,
+    cacheKey:  "pilot-vannmiljo@v0.1.5",
+  });
 }
 
 // ── 2. Get table names ────────────────────────────────────────────────────
@@ -46,7 +36,7 @@ tables_query = db.query(
 )
 table_names = tables_query.map(row => row.name)
 
-// ── 3. Selectors ─────────────────────────────────────────────────────────
+// ── 3. Selectors ──────────────────────────────────────────────────────────
 viewof selected_table = Inputs.select(table_names, {
   label: "Select Table:",
   value: table_names[0]
