@@ -1,6 +1,6 @@
 ---
-title: "Interactive Map of Core Locations"
-subtitle: Interactive map to view sediment core locations with meta information
+title: "Interactive Map of Site Locations"
+subtitle: Interactive map to view sediment site locations with meta information
 ---
 
 ::: {.callout-note}
@@ -74,8 +74,8 @@ for(group in dist_groups) {
         "<strong>Activity:</strong> ", activity_name, "<br>",
         "<strong>Site Code:</strong> ", site_code, "<br>",
         "<strong>Site:</strong> ", site_name, "<br>",
-        "<strong>Latitude:</strong> ", round(lon, 2), "<br>",
         "<strong>Longitude:</strong> ", round(lat, 2), "<br>",
+        "<strong>Latitude:</strong> ", round(lon, 2), "<br>",
         "<strong>Distance:</strong> ", round(dist_to_coast, 1), " km", "<br>",
         "<strong>Country:</strong> ", country, "<br>",
         "<strong>Country Code:</strong> ", country_code, "<br>",
