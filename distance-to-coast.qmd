@@ -1,6 +1,6 @@
 ---
 title: "Distance Calculation"
-subtitle: Distance calculation to the nearest Norwegian coastline from core locations 
+subtitle: Distance calculation to the nearest Norwegian coastline from site locations
 ---
 
 As the initial data analysis will be performed on the Vannmiljø sites located within Norwegian fjords and surrounding areas near the Norwegian coastline, the distances to the nearest coastline were calculated.
@@ -28,7 +28,6 @@ core_dist
 
 Coastline data were derived from the **Global Self-consistent, Hierarchical, High-resolution Geography** ([GSHHG](https://www.soest.hawaii.edu/pwessel/gshhg/)) database. High-resolution shoreline polygons were extracted for the region covering the Norwegian mainland and the Svalbard archipelago. The coastline geometry was cleaned and filtered to ensure topological validity before calculation.
 
-To ensure accurate measurements at high latitudes, where standard global projections (like Mercator) distort distances, all spatial data were projected to the **ETRS89-extended Lambert Azimuthal Equal Area projection (EPSG:3035)**. This Coordinate Reference System is the standard for pan-European statistical mapping and minimizes distortion across the region. The shortest Euclidean distance from each sampling (core) site to the nearest Norwegian coastline geometry was then calculated in meters.
+To ensure accurate measurements at high latitudes, where standard global projections (like Mercator) distort distances, all spatial data were projected to the **ETRS89-extended Lambert Azimuthal Equal Area projection (EPSG:3035)**. This Coordinate Reference System is the standard for pan-European statistical mapping and minimizes distortion across the region. The shortest Euclidean distance from each sampling site to the nearest Norwegian coastline geometry was then calculated in meters.
 
 The calculation was performed using the [sf](https://cran.r-project.org/web/packages/sf/index.html) library in R.
- 
