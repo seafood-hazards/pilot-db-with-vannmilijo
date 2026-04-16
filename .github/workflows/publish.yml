@@ -43,7 +43,8 @@ jobs:
             libcurl4-openssl-dev \
             libnode-dev \
             libharfbuzz-dev \
-            libfribidi-dev
+            libfribidi-dev \
+            gdal-bin
 
       - name: Restore renv packages
         uses: r-lib/actions/setup-renv@v2

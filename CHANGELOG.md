@@ -6,6 +6,13 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 
+## [0.1.11] - 2026-04-16
+### Added
+- Interactive sediment map
+
+### Changed
+- data source for interactive site map
+
 ## [0.1.10] - 2026-04-11
 ### Changed
 - sql interface from sqljs to stratum toolset
