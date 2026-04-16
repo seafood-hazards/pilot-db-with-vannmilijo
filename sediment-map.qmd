@@ -183,7 +183,6 @@ function fmtVal(v) {
       options: { position: "topleft" },
       onAdd(map) {
         const btn = L.DomUtil.create("a", "leaflet-home-button")
-        // fa-expand icon: reset to default extent, widely understood on maps
         btn.innerHTML = '<i class="fa fa-expand" aria-hidden="true"></i>'
         btn.title = "Reset to default view"
         btn.setAttribute("aria-label", "Reset to default view")
