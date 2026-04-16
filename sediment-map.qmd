@@ -39,16 +39,18 @@ format:
   background: white;
   border: 2px solid rgba(0,0,0,0.3);
   border-radius: 4px;
-  width: 30px; height: 30px;
+  width: 34px; height: 34px;
   cursor: pointer;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 30px;
   text-align: center;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #444;
   text-decoration: none;
 }
-.leaflet-home-button:hover { background: #f4f4f4; }
+.leaflet-home-button:hover { background: #f4f4f4; color: #000; }
 </style>
 ```
 
@@ -181,8 +183,10 @@ function fmtVal(v) {
       options: { position: "topleft" },
       onAdd(map) {
         const btn = L.DomUtil.create("a", "leaflet-home-button")
-        btn.innerHTML = "⌂"
-        btn.title = "Reset view"
+        // fa-expand icon: reset to default extent, widely understood on maps
+        btn.innerHTML = '<i class="fa fa-expand" aria-hidden="true"></i>'
+        btn.title = "Reset to default view"
+        btn.setAttribute("aria-label", "Reset to default view")
         L.DomEvent.on(btn, "click", (e) => {
           L.DomEvent.stopPropagation(e)
           map.setView([home_lat, home_lng], home_zoom)
