@@ -114,8 +114,8 @@ points_web = db.query(`
     a.activity_name,
     s1.site_code,
     s1.site_name,
-    s1.lon,
     s1.lat,
+    s1.lon,
     s1.dist_to_coast,
     CASE
       WHEN s1.dist_to_coast <= 10  THEN '0 to 10km'
@@ -196,8 +196,8 @@ points_web = db.query(`
         <strong>Activity:</strong> ${d.activity_name}<br>
         <strong>Site Code:</strong> ${d.site_code}<br>
         <strong>Site:</strong> ${d.site_name ?? "—"}<br>
-        <strong>Longitude:</strong> ${d.lon != null ? d.lon.toFixed(2) : "—"}<br>
         <strong>Latitude:</strong> ${d.lat != null ? d.lat.toFixed(2) : "—"}<br>
+        <strong>Longitude:</strong> ${d.lon != null ? d.lon.toFixed(2) : "—"}<br>
         <strong>Distance:</strong> ${d.dist_to_coast != null ? d.dist_to_coast.toFixed(1) + " km" : "—"}<br>
         <strong>Country:</strong> ${d.country ?? "—"}<br>
         <strong>Country Code:</strong> ${d.country_code ?? "—"}<br>

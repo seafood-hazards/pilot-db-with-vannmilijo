@@ -28,57 +28,34 @@ The file `pilot_vannmiljo_all.tsv.gz` is a denormalized (flat) export of the rel
 library(tibble)
 library(kableExtra)
 
-tibble(
-  `Column Name` = c(
-    "activity_id", "activity_name",
-    "site_code", "site_name", "lon", "lat", "dist_to_coast",
-    "country", "country_code", "municipality", "sea_name",
-    "sample_time", "upper_depth", "lower_depth", "sample_no", "n_values",
-    "param_id", "param_name",
-    "method", "analysis",
-    "value", "unit", "operator",
-    "lod", "loq",
-    "category"
-  ),
-  `Source Table` = c(
-    "Activity", "Activity",
-    "Site", "Site", "Site", "Site", "Site",
-    "Site", "Site", "Site", "Site",
-    "Sample", "Sample", "Sample", "Sediment", "Sediment",
-    "Parameter", "Parameter",
-    "Sample Method", "Analysis Method",
-    "Sediment", "Analysis Method", "Sediment",
-    "LLD (Filtered)", "LLD (Filtered)",
-    "Parameter (Categorized)"
-  ),
-  `Description` = c(
-    "Unique identifier for the activity/monitoring program",
-    "Name of the activity or monitoring program",
-    "Unique code for the sampling site",
-    "Name of the sampling location",
-    "Longitude coordinate (decimal degrees)",
-    "Latitude coordinate (decimal degrees)",
-    "Distance to the nearest coastline",
-    "Country name",
-    "Country code",
-    "Municipality name",
-    "Name of the sea or coastal water body",
-    "Date and time when the sample was collected",
-    "Upper depth of the sampled interval",
-    "Lower depth of the sampled interval",
-    "Physical sample identification number",
-    "Number of values or replicates used to derive the measurement",
-    "Unique identifier for the chemical parameter",
-    "Name of the chemical parameter measured",
-    "Method or equipment used to take the sample",
-    "Laboratory analysis method used",
-    "Measured concentration or numerical result",
-    "Unit of measurement for the value",
-    "Mathematical operator (e.g., <, =) indicating if value is below detection limits",
-    "Limit of Detection (LOD) value",
-    "Limit of Quantification (LOQ) value",
-    "Parameter category: efsa (EFSA elements), other (Other elements), tcs (Total sulfur and carbon), p (Particle fractions)"
-  )
+tribble(
+  ~`Column Name`,    ~`Source Table`,            ~Description,
+  "activity_id",     "Activity",                 "Unique identifier for the activity/monitoring program",
+  "activity_name",   "Activity",                 "Name of the activity or monitoring program",
+  "site_code",       "Site",                     "Unique code for the sampling site",
+  "site_name",       "Site",                     "Name of the sampling location",
+  "lat",             "Site",                     "Latitude coordinate (decimal degrees)",
+  "lon",             "Site",                     "Longitude coordinate (decimal degrees)",
+  "dist_to_coast",   "Site",                     "Distance to the nearest coastline",
+  "country",         "Site",                     "Country name",
+  "country_code",    "Site",                     "Country code",
+  "municipality",    "Site",                     "Municipality name",
+  "sea_name",        "Site",                     "Name of the sea or coastal water body",
+  "sample_time",     "Sample",                   "Date and time when the sample was collected",
+  "upper_depth",     "Sample",                   "Upper depth of the sampled interval",
+  "lower_depth",     "Sample",                   "Lower depth of the sampled interval",
+  "sample_no",       "Sediment",                 "Physical sample identification number",
+  "n_values",        "Sediment",                 "Number of values or replicates used to derive the measurement",
+  "param_id",        "Parameter",                "Unique identifier for the chemical parameter",
+  "param_name",      "Parameter",                "Name of the chemical parameter measured",
+  "method",          "Sample Method",            "Method or equipment used to take the sample",
+  "analysis",        "Analysis Method",          "Laboratory analysis method used",
+  "value",           "Sediment",                 "Measured concentration or numerical result",
+  "unit",            "Analysis Method",          "Unit of measurement for the value",
+  "operator",        "Sediment",                 "Mathematical operator (e.g., <, =) indicating if value is below detection limits",
+  "lod",             "LLD (Filtered)",           "Limit of Detection (LOD) value",
+  "loq",             "LLD (Filtered)",           "Limit of Quantification (LOQ) value",
+  "category",        "Parameter (Categorized)",  "Parameter category: efsa (EFSA elements), other (Other elements), tcs (Total sulfur and carbon), p (Particle fractions)"
 ) |>
   kable(align = c("l", "l", "l")) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
@@ -94,34 +71,21 @@ The file `pilot_vannmiljo_particles.tsv.gz` contains the particle size conversio
 
 ```{r}
 #| echo: false
-tibble(
-  Column = c(
-    "sample_id", "sediment_no",
-    "clay_pct", "silt_pct", "sand_pct", "gravel_pct", "total_pct",
-    "clay_method", "silt_method", "sand_method", "gravel_method",
-    "any_op_adjusted", "qc_confidence"
-  ),
-  Type = c(
-    "character", "integer",
-    "numeric", "numeric", "numeric", "numeric", "numeric",
-    "character", "character", "character", "character",
-    "logical", "factor"
-  ),
-  Description = c(
-    "Unique sample identifier, linking to the broader dataset",
-    "Sediment layer number within the core (1 = topmost measured layer)",
-    "Clay fraction (< 2 µm), as a percentage of the total sediment",
-    "Silt fraction (2–63 µm), as a percentage",
-    "Sand fraction (63–2000 µm), as a percentage",
-    "Gravel fraction (> 2000 µm), as a percentage",
-    "Sum of the four fractions; equals 100 % for all fully processed samples",
-    "Derivation method for clay: 'direct', 'arithmetic', or 'background'",
-    "Derivation method for silt",
-    "Derivation method for sand",
-    "Derivation method for gravel",
-    "TRUE if any input measurement had a non-exact operator (i.e. '<', '>', or 'ND')",
-    "Data quality confidence level: 'high', 'medium', 'low', 'very_low', or 'unreliable'"
-  )
+tribble(
+  ~Column,           ~Type,       ~Description,
+  "sample_id",       "character", "Unique sample identifier, linking to the broader dataset",
+  "sediment_no",     "integer",   "Sediment layer number within the core (1 = topmost measured layer)",
+  "clay_pct",        "numeric",   "Clay fraction (< 2 µm), as a percentage of the total sediment",
+  "silt_pct",        "numeric",   "Silt fraction (2–63 µm), as a percentage",
+  "sand_pct",        "numeric",   "Sand fraction (63–2000 µm), as a percentage",
+  "gravel_pct",      "numeric",   "Gravel fraction (> 2000 µm), as a percentage",
+  "total_pct",       "numeric",   "Sum of the four fractions; equals 100 % for all fully processed samples",
+  "clay_method",     "character", "Derivation method for clay: 'direct', 'arithmetic', or 'background'",
+  "silt_method",     "character", "Derivation method for silt",
+  "sand_method",     "character", "Derivation method for sand",
+  "gravel_method",   "character", "Derivation method for gravel",
+  "any_op_adjusted", "logical",   "TRUE if any input measurement had a non-exact operator (i.e. '<', '>', or 'ND')",
+  "qc_confidence",   "factor",    "Data quality confidence level: 'high', 'medium', 'low', 'very_low', or 'unreliable'"
 ) |>
   kable(align = c("l", "l", "l")) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
@@ -147,25 +111,14 @@ The file contains all columns from `pilot_vannmiljo_all.tsv.gz` (see above), plu
 
 ```{r}
 #| echo: false
-tibble(
-  Column = c(
-    "clay_pct", "silt_pct", "sand_pct", "gravel_pct",
-    "total_pct",
-    "particle_qc_confidence"
-  ),
-  Type = c(
-    "numeric", "numeric", "numeric", "numeric",
-    "numeric",
-    "factor"
-  ),
-  Description = c(
-    "Clay fraction (< 2 µm) derived from particle size analysis, as a percentage",
-    "Silt fraction (2–63 µm), as a percentage",
-    "Sand fraction (63–2000 µm), as a percentage",
-    "Gravel fraction (> 2000 µm), as a percentage",
-    "Sum of the four fractions; equals 100 % for all fully processed samples",
-    "Data quality confidence level for the particle fractions: 'high', 'medium', 'low', 'very_low', or 'unreliable'. NA if no particle size data are available for that sample."
-  )
+tribble(
+  ~Column,                  ~Type,     ~Description,
+  "clay_pct",               "numeric", "Clay fraction (< 2 µm) derived from particle size analysis, as a percentage",
+  "silt_pct",               "numeric", "Silt fraction (2–63 µm), as a percentage",
+  "sand_pct",               "numeric", "Sand fraction (63–2000 µm), as a percentage",
+  "gravel_pct",             "numeric", "Gravel fraction (> 2000 µm), as a percentage",
+  "total_pct",              "numeric", "Sum of the four fractions; equals 100 % for all fully processed samples",
+  "particle_qc_confidence", "factor",  "Data quality confidence level for the particle fractions: 'high', 'medium', 'low', 'very_low', or 'unreliable'. NA if no particle size data are available for that sample."
 ) |>
   kable(align = c("l", "l", "l")) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),

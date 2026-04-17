@@ -132,7 +132,7 @@ value_range_result = db.query(`
                  JOIN site s2 ON s2.site_code = s1.site_code
         WHERE s.param_id = '${selected_element.value}'
           AND CAST(STRFTIME('%Y', s1.sample_time) AS INTEGER) BETWEEN ${year_start} AND ${year_end}
-        GROUP BY s2.lon, s2.lat) t
+        GROUP BY s2.lat, s2.lon) t
   GROUP BY param_id
 `)
 
@@ -149,7 +149,7 @@ map_data = db.query(`
     JOIN site s2 ON s2.site_code = s1.site_code
     WHERE s.param_id = '${selected_element.value}'
       AND CAST(STRFTIME('%Y', s1.sample_time) AS INTEGER) BETWEEN ${year_start} AND ${year_end}
-    GROUP BY s.param_id, s2.lon, s2.lat
+    GROUP BY s.param_id, s2.lat, s2.lon
 `)
 
 // --- Colour scale using element+year-specific range ---
@@ -266,8 +266,8 @@ point_data = {
   if (!p) return []
   return db.query(`
     SELECT a1.activity_name AS Activity,
-           ROUND(s2.lon, 2) AS Longitude,
            ROUND(s2.lat, 2) As Latitude,
+           ROUND(s2.lon, 2) AS Longitude,
            STRFTIME('%Y', s1.sample_time) AS Year,
            STRFTIME('%F', s1.sample_time) as Date,
            s3.method AS Tool,
@@ -287,7 +287,7 @@ point_data = {
     JOIN analysis_method a2 ON a2.analysis_id = s.analysis_id
     WHERE s.param_id = '${selected_element.value}'
      AND CAST(STRFTIME('%Y', s1.sample_time) AS INTEGER) BETWEEN ${year_start} AND ${year_end}
-     AND s2.lon = ${p.lon} AND s2.lat = ${p.lat}
+     AND s2.lat = ${p.lat} AND s2.lon = ${p.lon}
   `)
 }
 

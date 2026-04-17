@@ -13,6 +13,10 @@ website:
   title: "Vannmiljø Pilot"
   navbar:
     search: true
+    right:
+      - icon: github
+        href: https://github.com/seafood-hazards/vannmiljo-pilot
+        aria-label: GitHub
     left:
       - text: "Home"
         href: index.qmd
