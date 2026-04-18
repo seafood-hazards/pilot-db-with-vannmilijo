@@ -3,7 +3,6 @@ project:
   pre-render: download_resources.R
   resources:
     - pilot_vannmiljo.sqlite
-    - pilot_vannmiljo_all.tsv.gz
     - libs/sqljs/
   render: 
     - "*.qmd"
@@ -13,6 +12,10 @@ website:
   title: "Vannmiljø Pilot"
   navbar:
     search: true
+    right:
+      - icon: github
+        href: https://github.com/seafood-hazards/vannmiljo-pilot
+        aria-label: GitHub
     left:
       - text: "Home"
         href: index.qmd
@@ -40,6 +43,8 @@ website:
         menu:
           - text: "Pilot DB Viewer"
             href: pilot-db-viewer.qmd
+          - text: "Trace Element Map"
+            href: sediment-map.qmd
 
 format:
   html:

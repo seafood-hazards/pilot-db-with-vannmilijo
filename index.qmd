@@ -22,41 +22,51 @@ This site presents the initial version of the database design and its potential 
  * Carbon content and total sulfur
  * Particle sizes
 
-### Count of Sampling Sites
-The table below summarizes the number of sampling sites documented across 27 activities and projects between 1975 and 2025.
+### Count of Sediment Sites
+The table below summarizes the number of sediment sites collected across 27 activities between 1975 and 2025.
 
-```{r}
-library(tidyverse)
-library(DT)
+{{< include _db-setup.qmd >}}
 
-# 1. Define the URL for the data file
-data_file_url <- "https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.5/pilot_vannmiljo_all.tsv.gz"
-local_data_file_name <- "pilot_vannmiljo_all.tsv.gz"
+```{ojs}
+//| output: false
 
-# 2. Download Logic
-if (!file.exists(local_data_file_name)) {
-  options(timeout = 600)
-  download.file(data_file_url, destfile = local_data_file_name, mode = "wb")
-  message("Database downloaded.")
-} else {
-  message("Using existing local database.")
-}
+aq = require("arquero")
 
-df_vannmiljo_sediment <- read_tsv(local_data_file_name)
-df_counts <- df_vannmiljo_sediment %>%
-  distinct(activity_id, activity_name, site_code, site_name, sample_time, param_name) %>%
-  mutate(year = year(sample_time)) %>%
-  count(activity_id, activity_name, year, param_name) %>%
-  pivot_wider(names_from = param_name, values_from = n) %>%
-  replace(is.na(.), 0) %>%
-  mutate(activity_id = factor(activity_id),
-         activity_name = factor(activity_name)) %>%
-  rename(`Activity ID` = activity_id,
-         `Activity Name` = activity_name,
-         Year = year)
+// --- Query: long format counts per cruise type, year, and element ---
+counts_long = db.query(`
+  SELECT activity_name,
+         year,
+         param_name,
+         count(*) as count
+  FROM (SELECT DISTINCT a.activity_name,
+                        s2.sample_id,
+                        STRFTIME('%Y', s2.sample_time) AS year,
+                        p.param_name
+        FROM sediment s
+                 JOIN parameter p ON p.param_id = s.param_id
+                 JOIN sample s2 ON s2.sample_id = s.sample_id
+                 JOIN activity a ON a.activity_id = s2.activity_id
+        WHERE p.param_name IN ('Cobalt', 'Copper', 'Manganese', 'Molybdenum', 'Selenium', 'Zinc')) t
+  GROUP BY activity_name, year, param_name
+`)
 
-datatable(df_counts, filter = "top", rownames = FALSE, class = "nowrap", options = list(scrollX = TRUE))
+// --- Pivot to wide format using Arquero ---
+elements_wide = ["Cobalt", "Copper", "Manganese", "Molybdenum", "Selenium", "Zinc"]
 
+counts_wide = aq.from(counts_long)
+  .groupby("activity_name", "year")
+  .pivot("param_name", "count")
+  .orderby("activity_name", "year")
+  .rename({ activity_name: "Activity Name", year: "Year" })
+  .objects()
+```
+
+```{ojs}
+Inputs.table(counts_wide, {
+  columns: ["Activity Name", "Year", ...elements_wide],
+  layout: "auto",
+  rows: 20
+})
 ```
 
 ## Database Design and Creation
@@ -72,7 +82,7 @@ To facilitate efficient core and sample selection, distances to the nearest coas
 
 - See the [Distance Calculation](./distance-to-coast.qmd) page for the methods and results of calculating the distance to the nearest coastline.
 - See the [Location Names](./location-names.qmd) page for the estimation of location names from geographic coordinates.
-- See the [Interactive Map](./distance-interactive-map.qmd) page for an interactive visualization of core locations with meta-information.
+- See the [Interactive Map](./distance-interactive-map.qmd) page for an interactive visualization of site locations with meta-information.
 
 ## Data Export
 
@@ -84,3 +94,4 @@ Data can be exported for both exploration and submission purposes.
 ## Tools
 
 - See the [Pilot DB Viewer](./pilot-db-viewer.qmd) page for a read-only view of the pilot database.
+- See the [Sediment Trace Element Map](./sediment-map.qmd) page for an interactive map view of the trace elements.

@@ -20,23 +20,10 @@ The `activity` table contains the monitoring programs or projects associated wit
 ```{r}
 library(tibble)
 
-activity_tbl <- tibble(
-  `Name` = c(
-    "activity_id", "activity_name"
-  ),
-  `Data Type` = c(
-    "TEXT", "TEXT"
-  ),
-  `PK` = c(
-    "✓", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE
-  ),
-  `Description` = c(
-    "Primary Key. Unique identifier for the activity/monitoring program.",
-    "Name of the monitoring program or project."
-  )
+activity_tbl <- tribble(
+  ~Name,         ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "activity_id", "TEXT",       "✓", "",         "Primary Key. Unique identifier for the activity/monitoring program.",
+  "activity_name", "TEXT",     "",  "",         "Name of the monitoring program or project."
 )
 
 activity_tbl
@@ -48,24 +35,11 @@ The `client` table stores information about the entities (e.g., municipalities, 
 
 ### Table Columns
 ```{r}
-client_tbl <- tibble(
-  `Name` = c(
-    "client_id", "client", "archive"
-  ),
-  `Data Type` = c(
-    "INTEGER", "TEXT", "BOOLEAN"
-  ),
-  `PK` = c(
-    "✓", "", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE, FALSE
-  ),
-  `Description` = c(
-    "Primary Key. Unique identifier for the client.",
-    "Name of the client or commissioner.",
-    "Flag indicating if the record is archived."
-  )
+client_tbl <- tribble(
+  ~Name,       ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "client_id", "INTEGER",    "✓", "",         "Primary Key. Unique identifier for the client.",
+  "client",    "TEXT",       "",  "",         "Name of the client or commissioner.",
+  "archive",   "BOOLEAN",    "",  "",         "Flag indicating if the record is archived."
 )
 
 client_tbl
@@ -77,23 +51,10 @@ The `contractor` table identifies the laboratories or institutes that performed 
 
 ### Table Columns
 ```{r}
-contractor_tbl <- tibble(
-  `Name` = c(
-    "contractor_id", "contractor"
-  ),
-  `Data Type` = c(
-    "INTEGER", "TEXT"
-  ),
-  `PK` = c(
-    "✓", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE
-  ),
-  `Description` = c(
-    "Primary Key. Unique identifier for the contractor.",
-    "Name of the contractor (e.g., NIVA, Analycen)."
-  )
+contractor_tbl <- tribble(
+  ~Name,           ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "contractor_id", "INTEGER",    "✓", "",         "Primary Key. Unique identifier for the contractor.",
+  "contractor",    "TEXT",       "",  "",         "Name of the contractor (e.g., NIVA, Analycen)."
 )
 
 contractor_tbl
@@ -105,39 +66,18 @@ The `site` table holds geographical and administrative details about the samplin
 
 ### Table Columns
 ```{r}
-site_tbl <- tibble(
-  `Name` = c(
-    "site_code", "site_name", "label", "lon",
-    "lat", "dist_to_coast", "country", "country_code",
-    "municipality", "sea_name"
-  ),
-  `Data Type` = c(
-    "TEXT", "TEXT", "TEXT", "REAL",
-    "REAL", "REAL", "TEXT", "TEXT",
-    "TEXT", "TEXT"
-  ),
-  `PK` = c(
-    "✓", "", "", "",
-    "", "", "", "",
-    "", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, TRUE, TRUE, FALSE,
-    FALSE, TRUE, TRUE, TRUE,
-    TRUE, TRUE
-  ),
-  `Description` = c(
-    "Primary Key. Unique code for the sampling site.",
-    "Name of the sampling location.",
-    "Additional designation or label for the site.",
-    "Longitude coordinate.",
-    "Latitude coordinate.",
-    "Distance to the coast.",
-    "Country name.",
-    "Country code (e.g., NO).",
-    "Municipality name.",
-    "Name of the sea or coastal water body."
-  )
+site_tbl <- tribble(
+  ~Name,           ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "site_code",     "TEXT",       "✓", "",         "Primary Key. Unique code for the sampling site.",
+  "site_name",     "TEXT",       "",  "✓",          "Name of the sampling location.",
+  "label",         "TEXT",       "",  "✓",          "Additional designation or label for the site.",
+  "lat",           "REAL",       "",  "",         "Latitude coordinate.",
+  "lon",           "REAL",       "",  "",         "Longitude coordinate.",
+  "dist_to_coast", "REAL",       "",  "✓",          "Distance to the coast.",
+  "country",       "TEXT",       "",  "✓",          "Country name.",
+  "country_code",  "TEXT",       "",  "✓",          "Country code (e.g., NO).",
+  "municipality",  "TEXT",       "",  "✓",          "Municipality name.",
+  "sea_name",      "TEXT",       "",  "✓",          "Name of the sea or coastal water body."
 )
 
 site_tbl
@@ -149,23 +89,10 @@ The `sample_method` table catalogs the different techniques and equipment used t
 
 ### Table Columns
 ```{r}
-sample_method_tbl <- tibble(
-  `Name` = c(
-    "method_id", "method"
-  ),
-  `Data Type` = c(
-    "INTEGER", "TEXT"
-  ),
-  `PK` = c(
-    "✓", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE
-  ),
-  `Description` = c(
-    "Primary Key. Unique identifier for the sampling method.",
-    "Description or standard code for the sampling method."
-  )
+sample_method_tbl <- tribble(
+  ~Name,       ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "method_id", "INTEGER",    "✓", "",         "Primary Key. Unique identifier for the sampling method.",
+  "method",    "TEXT",       "",  "",         "Description or standard code for the sampling method."
 )
 
 sample_method_tbl
@@ -177,24 +104,11 @@ The `analysis_method` table contains the laboratory procedures and units used to
 
 ### Table Columns
 ```{r}
-analysis_method_tbl <- tibble(
-  `Name` = c(
-    "analysis_id", "analysis", "unit"
-  ),
-  `Data Type` = c(
-    "INTEGER", "TEXT", "TEXT"
-  ),
-  `PK` = c(
-    "✓", "", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE, FALSE
-  ),
-  `Description` = c(
-    "Primary Key. Unique identifier for the analysis method.",
-    "Description or standard code of the analysis method.",
-    "Unit of measurement for the analysis results."
-  )
+analysis_method_tbl <- tribble(
+  ~Name,         ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "analysis_id", "INTEGER",    "✓", "",         "Primary Key. Unique identifier for the analysis method.",
+  "analysis",    "TEXT",       "",  "",         "Description or standard code of the analysis method.",
+  "unit",        "TEXT",       "",  "",         "Unit of measurement for the analysis results."
 )
 
 analysis_method_tbl
@@ -206,24 +120,11 @@ The `parameter` table defines the chemicals or properties being measured.
 
 ### Table Columns
 ```{r}
-parameter_tbl <- tibble(
-  `Name` = c(
-    "param_id", "param_name", "cas_no"
-  ),
-  `Data Type` = c(
-    "TEXT", "TEXT", "TEXT"
-  ),
-  `PK` = c(
-    "✓", "", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE, TRUE
-  ),
-  `Description` = c(
-    "Primary Key. Unique code for the parameter.",
-    "Name of the chemical or measured property.",
-    "Chemical Abstracts Service (CAS) registry number."
-  )
+parameter_tbl <- tribble(
+  ~Name,        ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "param_id",   "TEXT",       "✓", "",         "Primary Key. Unique code for the parameter.",
+  "param_name", "TEXT",       "",  "",         "Name of the chemical or measured property.",
+  "cas_no",     "TEXT",       "",  "✓",          "Chemical Abstracts Service (CAS) registry number."
 )
 
 parameter_tbl
@@ -235,39 +136,18 @@ The `sample` table records the core metadata for each physical sample collected,
 
 ### Table Columns
 ```{r}
-sample_tbl <- tibble(
-  `Name` = c(
-    "sample_id", "activity_id", "site_code", "client_id", 
-    "contractor_id", "method_id", "upper_depth", "lower_depth", 
-    "sample_time", "filtered"
-  ),
-  `Data Type` = c(
-    "TEXT", "TEXT", "TEXT", "INTEGER",
-    "INTEGER", "INTEGER", "REAL", "REAL",
-    "TEXT", "BOOLEAN"
-  ),
-  `PK` = c(
-    "✓", "", "", "",
-    "", "", "", "",
-    "", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE, FALSE, FALSE,
-    FALSE, FALSE, FALSE, FALSE,
-    TRUE, TRUE
-  ),
-  `Description` = c(
-    "Primary Key. Unique identifier for the sample.",
-    "Foreign Key to activity table.",
-    "Foreign Key to site table.",
-    "Foreign Key to client table.",
-    "Foreign Key to contractor table.",
-    "Foreign Key to sample_method table.",
-    "Upper depth of the sample.",
-    "Lower depth of the sample.",
-    "Timestamp of when the sample was collected.",
-    "Indicates whether the sample was filtered."
-  )
+sample_tbl <- tribble(
+  ~Name,           ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "sample_id",     "TEXT",       "✓", "",         "Primary Key. Unique identifier for the sample.",
+  "activity_id",   "TEXT",       "",  "",         "Foreign Key to activity table.",
+  "site_code",     "TEXT",       "",  "",         "Foreign Key to site table.",
+  "client_id",     "INTEGER",    "",  "",         "Foreign Key to client table.",
+  "contractor_id", "INTEGER",    "",  "",         "Foreign Key to contractor table.",
+  "method_id",     "INTEGER",    "",  "",         "Foreign Key to sample_method table.",
+  "upper_depth",   "REAL",       "",  "",         "Upper depth of the sample.",
+  "lower_depth",   "REAL",       "",  "",         "Lower depth of the sample.",
+  "sample_time",   "TEXT",       "",  "✓",          "Timestamp of when the sample was collected.",
+  "filtered",      "BOOLEAN",    "",  "✓",          "Indicates whether the sample was filtered."
 )
 
 sample_tbl
@@ -279,33 +159,16 @@ The `sediment` table stores the actual measurement values for the parameters ana
 
 ### Table Columns
 ```{r}
-sediment_tbl <- tibble(
-  `Name` = c(
-    "sample_id", "param_id", "sediment_no", "analysis_id",
-    "value", "operator", "sample_no", "n_values"
-  ),
-  `Data Type` = c(
-    "TEXT", "TEXT", "INTEGER", "INTEGER",
-    "REAL", "TEXT", "TEXT", "INTEGER"
-  ),
-  `PK` = c(
-    "✓", "✓", "✓", "",
-    "", "", "", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE, FALSE, FALSE,
-    FALSE, TRUE, TRUE, TRUE
-  ),
-  `Description` = c(
-    "Primary Key. Foreign Key to sample table.",
-    "Primary Key. Foreign Key to parameter table.",
-    "Primary Key. Sequential index for multiple records per sample-parameter combination.",
-    "Foreign Key to analysis_method table.",
-    "The measured concentration or numerical result.",
-    "Mathematical operator (e.g., <, =, >), indicating LLD.",
-    "Physical sample identification number.",
-    "Number of values/replicates used to derive the measurement."
-  )
+sediment_tbl <- tribble(
+  ~Name,         ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "sample_id",   "TEXT",       "✓", "",         "Primary Key. Foreign Key to sample table.",
+  "param_id",    "TEXT",       "✓", "",         "Primary Key. Foreign Key to parameter table.",
+  "sediment_no", "INTEGER",    "✓", "",         "Primary Key. Sequential index for multiple records per sample-parameter combination.",
+  "analysis_id", "INTEGER",    "",  "",         "Foreign Key to analysis_method table.",
+  "value",       "REAL",       "",  "",         "The measured concentration or numerical result.",
+  "operator",    "TEXT",       "",  "✓",          "Mathematical operator (e.g., <, =, >), indicating LLD.",
+  "sample_no",   "TEXT",       "",  "✓",          "Physical sample identification number.",
+  "n_values",    "INTEGER",    "",  "✓",          "Number of values/replicates used to derive the measurement."
 )
 
 sediment_tbl
@@ -317,30 +180,13 @@ The `lld` table contains Limit of Detection (LOD) and Limit of Quantification (L
 
 ### Table Columns
 ```{r}
-lld_tbl <- tibble(
-  `Name` = c(
-    "sample_id", "param_id", "sediment_no",
-    "type", "value"
-  ),
-  `Data Type` = c(
-    "TEXT", "TEXT", "INTEGER",
-    "TEXT", "REAL"
-  ),
-  `PK` = c(
-    "✓", "✓", "✓",
-    "✓", ""
-  ),
-  `NA Allowed` = c(
-    FALSE, FALSE, FALSE,
-    FALSE, FALSE
-  ),
-  `Description` = c(
-    "Primary Key. Foreign Key to sediment table.",
-    "Primary Key. Foreign Key to sediment table.",
-    "Primary Key. Foreign Key to sediment table.",
-    "Primary Key. Type of limit (e.g., LOD or LOQ).",
-    "Numerical value of the detection/quantification limit."
-  )
+lld_tbl <- tribble(
+  ~Name,         ~`Data Type`, ~PK, ~`NA Allowed`, ~Description,
+  "sample_id",   "TEXT",       "✓", "",         "Primary Key. Foreign Key to sediment table.",
+  "param_id",    "TEXT",       "✓", "",         "Primary Key. Foreign Key to sediment table.",
+  "sediment_no", "INTEGER",    "✓", "",         "Primary Key. Foreign Key to sediment table.",
+  "type",        "TEXT",       "✓", "",         "Primary Key. Type of limit (e.g., LOD or LOQ).",
+  "value",       "REAL",       "",  "",         "Numerical value of the detection/quantification limit."
 )
 
 lld_tbl

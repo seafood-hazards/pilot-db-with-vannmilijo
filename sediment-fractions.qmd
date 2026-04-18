@@ -16,15 +16,12 @@ distribution. The raw data report particle abundance as percentages across a var
 of size classes and aggregate measures.
 
 ```{r}
-tibble(
-  Fraction = c("Clay", "Silt", "Sand", "Gravel"),
-  `Size range` = c("< 2 µm", "2 – 63 µm", "63 – 2000 µm", "> 2000 µm"),
-  Description = c(
-    "Very fine particles, high surface area",
-    "Fine particles, settles slowly",
-    "Medium particles comprising five sub-fractions (63–125, 125–250, 250–500, 500–1000, 1000–2000 µm)",
-    "Coarse particles > 2 mm; typically minor in open marine settings"
-  )
+tribble(
+  ~Fraction, ~`Size range`, ~Description,
+  "Clay",    "< 2 µm",      "Very fine particles, high surface area",
+  "Silt",    "2 – 63 µm",   "Fine particles, settles slowly",
+  "Sand",    "63 – 2000 µm","Medium particles comprising five sub-fractions (63–125, 125–250, 250–500, 500–1000, 1000–2000 µm)",
+  "Gravel",  "> 2000 µm",   "Coarse particles > 2 mm; typically minor in open marine settings"
 ) |>
   kable(align = c("l", "l", "l")) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
@@ -41,18 +38,11 @@ Not all measurements are simple point estimates. Each value in the source data i
 accompanied by an operator describing its relationship to the true value:
 
 ```{r}
-tibble(
-  Operator = c("=", "<", ">"),
-  Meaning = c(
-    "Exact measurement",
-    "Below detection or quantification limit",
-    "Exceeds the upper measurement range (lower bound only)"
-  ),
-  `Treatment` = c(
-    "Used as-is",
-    "Replaced with half the reported value (mid-point convention)",
-    "Used as-is (treated as a measured lower bound)"
-  )
+tribble(
+  ~Operator, ~Meaning,                                                  ~Treatment,
+  "=",       "Exact measurement",                                        "Used as-is",
+  "<",       "Below detection or quantification limit",                  "Replaced with half the reported value (mid-point convention)",
+  ">",       "Exceeds the upper measurement range (lower bound only)",   "Used as-is (treated as a measured lower bound)"
 ) |>
   kable() |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
@@ -168,16 +158,14 @@ Every sample receives a single `qc_confidence` rating based on accumulated penal
 points from the three pre-processing steps.
 
 ```{r}
-tibble(
-  Source = c(
-    "Sum of fractions 100–101 % (minor rounding)",
-    "Sum of fractions 101–110 % (moderate conflict)",
-    "Sum of fractions 110–200 % (serious conflict)",
-    "Sum of fractions > 200 % (likely multiple errors)",
-    "Decimal-point correction applied (Step 0b)",
-    "Redundant aggregate removed (Step 0c)"
-  ),
-  `Penalty points` = c("+1", "+2", "+3", "+4", "+1", "+1")
+tribble(
+  ~Source,                                              ~`Penalty points`,
+  "Sum of fractions 100–101 % (minor rounding)",       "+1",
+  "Sum of fractions 101–110 % (moderate conflict)",    "+2",
+  "Sum of fractions 110–200 % (serious conflict)",     "+3",
+  "Sum of fractions > 200 % (likely multiple errors)", "+4",
+  "Decimal-point correction applied (Step 0b)",        "+1",
+  "Redundant aggregate removed (Step 0c)",             "+1"
 ) |>
   kable(align = c("l", "c")) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
@@ -185,16 +173,13 @@ tibble(
 ```
 
 ```{r}
-tibble(
-  `Total penalty` = c("0", "1", "2", "3", "4 or more"),
-  `qc_confidence` = c("high", "medium", "low", "very_low", "unreliable"),
-  Interpretation = c(
-    "No data quality issues detected",
-    "One minor issue (e.g. rounding-only excess or one decimal correction)",
-    "Two minor or one moderate issue",
-    "Substantial conflict in the original data; values corrected by rescaling",
-    "Severe conflict; results may not be reliable"
-  )
+tribble(
+  ~`Total penalty`, ~qc_confidence, ~Interpretation,
+  "0",              "high",         "No data quality issues detected",
+  "1",              "medium",       "One minor issue (e.g. rounding-only excess or one decimal correction)",
+  "2",              "low",          "Two minor or one moderate issue",
+  "3",              "very_low",     "Substantial conflict in the original data; values corrected by rescaling",
+  "4 or more",      "unreliable",   "Severe conflict; results may not be reliable"
 ) |>
   kable(align = c("c", "l", "l")) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
@@ -214,13 +199,11 @@ In addition to the confidence flag, each of the four output fractions carries a 
 describing how it was derived:
 
 ```{r}
-tibble(
-  Method = c("direct", "arithmetic", "background"),
-  Meaning = c(
-    "The fraction was measured directly in the original data",
-    "The fraction was calculated from other measurements using mass-balance arithmetic (no assumptions about composition)",
-    "At least one background ratio or overall proportion was required to estimate this fraction"
-  )
+tribble(
+  ~Method,      ~Meaning,
+  "direct",     "The fraction was measured directly in the original data",
+  "arithmetic", "The fraction was calculated from other measurements using mass-balance arithmetic (no assumptions about composition)",
+  "background", "At least one background ratio or overall proportion was required to estimate this fraction"
 ) |>
   kable() |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
@@ -241,52 +224,21 @@ The final exported dataset contains one row per sample × sediment layer. The co
 are described below.
 
 ```{r}
-tibble(
-  Column = c(
-    "sample_id",
-    "sediment_no",
-    "clay_pct",
-    "silt_pct",
-    "sand_pct",
-    "gravel_pct",
-    "total_pct",
-    "clay_method",
-    "silt_method",
-    "sand_method",
-    "gravel_method",
-    "any_op_adjusted",
-    "qc_confidence"
-  ),
-  Type = c(
-    "character",
-    "integer",
-    "numeric",
-    "numeric",
-    "numeric",
-    "numeric",
-    "numeric",
-    "character",
-    "character",
-    "character",
-    "character",
-    "logical",
-    "factor"
-  ),
-  Description = c(
-    "Unique sample identifier, linking to the broader dataset",
-    "Sediment layer number within the core (1 = topmost measured layer)",
-    "Clay fraction (< 2 µm), as a percentage of the total sediment",
-    "Silt fraction (2–63 µm), as a percentage",
-    "Sand fraction (63–2000 µm), as a percentage",
-    "Gravel fraction (> 2000 µm), as a percentage",
-    "Sum of the four fractions; equals 100 % for all fully processed samples",
-    "Derivation method for clay: 'direct', 'arithmetic', or 'background'",
-    "Derivation method for silt",
-    "Derivation method for sand",
-    "Derivation method for gravel",
-    "TRUE if any input measurement had a non-exact operator (i.e. '<', '>', or 'ND')",
-    "Data quality confidence level: 'high', 'medium', 'low', 'very_low', or 'unreliable'"
-  )
+tribble(
+  ~Column,           ~Type,       ~Description,
+  "sample_id",       "character", "Unique sample identifier, linking to the broader dataset",
+  "sediment_no",     "integer",   "Sediment layer number within the core (1 = topmost measured layer)",
+  "clay_pct",        "numeric",   "Clay fraction (< 2 µm), as a percentage of the total sediment",
+  "silt_pct",        "numeric",   "Silt fraction (2–63 µm), as a percentage",
+  "sand_pct",        "numeric",   "Sand fraction (63–2000 µm), as a percentage",
+  "gravel_pct",      "numeric",   "Gravel fraction (> 2000 µm), as a percentage",
+  "total_pct",       "numeric",   "Sum of the four fractions; equals 100 % for all fully processed samples",
+  "clay_method",     "character", "Derivation method for clay: 'direct', 'arithmetic', or 'background'",
+  "silt_method",     "character", "Derivation method for silt",
+  "sand_method",     "character", "Derivation method for sand",
+  "gravel_method",   "character", "Derivation method for gravel",
+  "any_op_adjusted", "logical",   "TRUE if any input measurement had a non-exact operator (i.e. '<', '>', or 'ND')",
+  "qc_confidence",   "factor",    "Data quality confidence level: 'high', 'medium', 'low', 'very_low', or 'unreliable'"
 ) |>
   kable(align = c("l", "l", "l")) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
@@ -301,4 +253,3 @@ uncertainty than directly measured or arithmetically derived values. The `qc_con
 column summarises the overall reliability of each row and should be the primary filter
 applied before analysis.
 :::
-
