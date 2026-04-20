@@ -17,6 +17,27 @@ of size classes and aggregate measures.
 
 ```{r}
 tribble(
+  ~Parameter, ~Description,
+	"GSMF2", "Particle fraction < 2 µm",
+	"GSMF2_63", "Particle fraction 2 - 63 µm",
+	"GSMF63_125", "Particle fraction 63 - 125 µm",
+	"GSMF125_250", "Particle fraction 125 - 250 µm",
+	"GSMF250_500", "Particle fraction 250 - 500 µm",
+	"GSMF500_1000", "Particle fraction 500 - 1000 µm",
+	"GSMF1000_2000", "Particle fraction 1000 - 2000 µm",
+	"GSMF_2000", "Particle fraction > 2000 µm",
+	"FINS", "Fines < 63 µm",
+	"GSMF_63", "Particle fraction > 63 µm",
+) |>
+  kable(align = c("l", "l")) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = FALSE)
+```
+
+From the data above, we like to summarise particle size data into the following four categories.
+
+```{r}
+tribble(
   ~Fraction, ~`Size range`, ~Description,
   "Clay",    "< 2 µm",      "Very fine particles, high surface area",
   "Silt",    "2 – 63 µm",   "Fine particles, settles slowly",
