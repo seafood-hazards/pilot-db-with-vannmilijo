@@ -11,9 +11,34 @@ library(kableExtra)
 
 ## Overview
 
-Marine sediment cores collected as part of this project were analysed for grain-size
-distribution. The raw data report particle abundance as percentages across a variety
-of size classes and aggregate measures.
+Raw measurements for grain sizes are reported as percentages across ten size classes and aggregate measures in the Vannmiljø datasets. Because some parameters represent sub-fractions and others represent their sums (e.g. FINS spans the combined clay and silt range), the raw data cannot be used directly without first resolving these overlaps. In addition, the source data contain a number of quality issues that must be addressed before the fraction conversion can be applied.
+
+### Particle Size Parameters in Vannmiljø
+
+The parameters below cover the full grain-size spectrum from clay to coarse gravel in the Vannmiljø datasets. Note that `FINS` and `GSMF_63` are aggregate measures that overlap with the more detailed sub-fraction parameters above and below them.
+
+```{r}
+tribble(
+  ~Parameter, ~Aggregate, ~Description,
+	"GSMF2", "", "Particle fraction < 2 µm",
+	"GSMF2_63", "", "Particle fraction 2 - 63 µm",
+	"GSMF63_125", "", "Particle fraction 63 - 125 µm",
+	"GSMF125_250", "", "Particle fraction 125 - 250 µm",
+	"GSMF250_500", "", "Particle fraction 250 - 500 µm",
+	"GSMF500_1000", "", "Particle fraction 500 - 1000 µm",
+	"GSMF1000_2000", "", "Particle fraction 1000 - 2000 µm",
+	"GSMF_2000", "", "Particle fraction > 2000 µm",
+	"FINS", "✓", "Fines < 63 µm",
+	"GSMF_63", "✓", "Particle fraction > 63 µm",
+) |>
+  kable(align = c("l", "c", "l")) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = FALSE)
+```
+
+### Conversion to Four Standard Fractions
+
+To facilitate comparison with other datasets, including the Mareano datasets, the Vannmiljø parameters are converted into four standard sediment fractions.
 
 ```{r}
 tribble(
