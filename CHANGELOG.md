@@ -6,6 +6,10 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 
+## [0.1.14] - 2026-04-22
+### Changed
+- section numbers in grain fraction page
+
 ## [0.1.13] - 2026-04-21
 ### Added
 - detailed explanation of grain-size issues
