@@ -11,9 +11,34 @@ library(kableExtra)
 
 ## Overview
 
-Marine sediment cores collected as part of this project were analysed for grain-size
-distribution. The raw data report particle abundance as percentages across a variety
-of size classes and aggregate measures.
+Raw measurements for grain sizes are reported as percentages across ten size classes and aggregate measures in the Vannmiljø datasets. Because some parameters represent sub-fractions and others represent their sums (e.g. FINS spans the combined clay and silt range), the raw data cannot be used directly without first resolving these overlaps. In addition, the source data contain a number of quality issues that must be addressed before the fraction conversion can be applied.
+
+### Particle Size Parameters in Vannmiljø
+
+The parameters below cover the full grain-size spectrum from clay to coarse gravel in the Vannmiljø datasets. Note that `FINS` and `GSMF_63` are aggregate measures that overlap with the more detailed sub-fraction parameters above and below them.
+
+```{r}
+tribble(
+  ~Parameter, ~Aggregate, ~Description,
+	"GSMF2", "", "Particle fraction < 2 µm",
+	"GSMF2_63", "", "Particle fraction 2 - 63 µm",
+	"GSMF63_125", "", "Particle fraction 63 - 125 µm",
+	"GSMF125_250", "", "Particle fraction 125 - 250 µm",
+	"GSMF250_500", "", "Particle fraction 250 - 500 µm",
+	"GSMF500_1000", "", "Particle fraction 500 - 1000 µm",
+	"GSMF1000_2000", "", "Particle fraction 1000 - 2000 µm",
+	"GSMF_2000", "", "Particle fraction > 2000 µm",
+	"FINS", "✓", "Fines < 63 µm",
+	"GSMF_63", "✓", "Particle fraction > 63 µm",
+) |>
+  kable(align = c("l", "c", "l")) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = FALSE)
+```
+
+### Conversion to Four Standard Fractions
+
+To facilitate comparison with other datasets, including the Mareano datasets, the Vannmiljø parameters are converted into four standard sediment fractions.
 
 ```{r}
 tribble(
@@ -74,12 +99,12 @@ Including both aggregate and component values inflates the apparent total well b
 
 The data are processed in six sequential steps. Each step feeds directly into the next.
 
-### Step 0: Operator adjustment
+### Step 1: Operator adjustment
 
 Measurement operators are resolved into usable numeric values using the conventions
 shown in the table above. All subsequent steps operate on these adjusted values.
 
-### Step 0b: Decimal-point correction
+### Step 1b: Decimal-point correction
 
 For each parameter, a background median is computed from all valid values (i.e. those
 already in the range 0–100 %). Values exceeding 100 % are then corrected by dividing
@@ -87,7 +112,7 @@ by successive powers of ten (10, 100, 1000, …) and selecting the candidate tha
 both ≤ 100 % and closest to that parameter's background median. Values that cannot be
 recovered this way are set to missing and flagged.
 
-### Step 0c: Overlap removal and rescaling
+### Step 1c: Overlap removal and rescaling
 
 Redundant aggregate parameters are removed from any sample where their components are
 also present. Specifically:
@@ -99,12 +124,12 @@ After deduplication, the remaining values for each sample are summed. If the tot
 exceeds 100 %, all values are rescaled proportionally so that the sample sums to
 exactly 100 %.
 
-### Step 1: Wide-format restructuring
+### Step 2: Wide-format restructuring
 
 The cleaned long-format data are pivoted to wide format, giving one row per
 sample × sediment layer with columns for each grain-size parameter and its operator.
 
-### Step 2: Arithmetic derivation (four passes)
+### Step 3: Arithmetic derivation (four passes)
 
 The four target fractions are derived algebraically from whichever measurements are
 available, without using any background statistics. The derivation exploits the
@@ -127,7 +152,7 @@ Four passes are made in order:
 This resolves the vast majority of combinations present in the dataset without
 any assumptions about the sediment composition.
 
-### Step 3:  Background ratio estimation
+### Step 4:  Background ratio estimation
 
 For samples that arithmetic derivation could not fully resolve, background ratios are
 estimated from all samples where both components of a group are arithmetically known:
@@ -138,12 +163,12 @@ $$\qquad r_\text{gravel/coarse} = \text{median}\!\left(\frac{\text{Gravel}}{\tex
 A set of overall background proportions (Clay : Silt : Sand : Gravel) is also
 derived from samples where all four fractions are known, for use as a final fallback.
 
-### Step 4: Within-group background splits
+### Step 5: Within-group background splits
 
 If a group total (Fines or Coarse) is known but *neither* of its components could be
 derived arithmetically, the group total is split using the background ratios from Step 3.
 
-### Step 5: General background imputation
+### Step 6: General background imputation
 
 Any fraction still unknown after Steps 2–4 is assigned a share of the remaining
 percentage budget (100 % minus the sum of known fractions). The share is proportional
