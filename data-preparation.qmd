@@ -51,14 +51,46 @@ The table below shows the exact mapping from the original column names to the ne
 | UTM33 Ost (X) | `utm33_x` |
 | UTM33 Nord (Y) | `utm33_y` |
 
-## 2. Data Cleaning and Value Conversion
+## 2. Unit Updates
+`t.v.` → `dw`: Replaced Norwegian "tørrvekt" with the standard "dry weight" abbreviation.
+
+## 3. Coordinate Transformation
+The transition from local grid coordinates to global geographic coordinates follows a three-step workflow.
+
+ - **Step 1: Defining the Source (EPSG:25833)**
+
+   The initial coordinates (Easting and Northing) are recorded in the ETRS89 / UTM zone 33N system. This is the official projected coordinate system used by Norwegian authorities (Kartverket) for high-accuracy local mapping in Norway.
+
+ - **Step 2: Reprojection to WGS 84 (EPSG:4326)**
+
+   Using standard geodetic formulas, the points are "reprojected" from the flat Norwegian grid onto the WGS 84 ellipsoid. This is the universal geographic coordinate system used by GPS devices and web-mapping platforms like Leaflet.
+
+ - **Step 3: Coordinate Extraction**
+
+   Once the transformation is complete, the resulting Latitude and Longitude values are extracted as numeric values. This allows the spatial data to be stored in the [Site](db-schema.qmd#site-table) tables.
+
+## 4. Data Cleaning and Value Conversion
 
 After renaming the columns, the internal row values must be cleaned and translated. The data cleaning process addresses several inconsistencies in the raw data:
 
-* **Handling Missing Entities:** Missing (`NA`) values in `contractor` are replaced with `"Unknown"`. For `client`, missing values or placeholders like `"0"` are also replaced with `"Unknown"`.
-* **Standardizing Methods:** Missing values or the Norwegian word `"UKJENT"` (Unknown) in `sample_method` and `analysis_method` are standardized to `"Unknown"`.
-* **Fixing Depth Variables:** Missing values (`NA`) in `upper_depth` and `lower_depth` are assumed to be surface level and set to `0.0`. The column types are safely coerced to numeric.
+* **Handling Missing Entities:**
+
+  Missing (`NA`) values in `contractor` are replaced with `"Unknown"`. For `client`, missing values or placeholders like `"0"` are also replaced with `"Unknown"`.
+
+* **Standardizing Methods:**
+
+  Missing values or the Norwegian word `"UKJENT"` (Unknown) in `sample_method` and `analysis_method` are standardized to `"Unknown"`.
+
+* **Fixing Depth Variables:**
+
+  Missing values (`NA`) in `upper_depth` and `lower_depth` are assumed to be surface level and set to `0.0`. The column types are safely coerced to numeric.
+
 * **Boolean Conversions:**
+
   * The `is_filtered` column is evaluated: if the value is `"Filtrert"` (Filtered), it is converted to `TRUE`; otherwise, `FALSE`. The result is saved to a new `filtered` column.
+
   * The `archive` column uses `"j"` (for *ja*, meaning yes). This is converted to a standard `TRUE`/`FALSE` boolean.
-* **Translating Parameters:** The Norwegian chemical parameter names in `param_name` are mapped to their English equivalents (e.g., *Kobber* to *Copper*, *Sink* to *Zinc*).
+
+* **Translating Parameters:**
+
+  The Norwegian chemical parameter names in `param_name` are mapped to their English equivalents (e.g., *Kobber* to *Copper*, *Sink* to *Zinc*).
