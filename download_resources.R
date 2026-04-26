@@ -1,7 +1,7 @@
 options(timeout = 600)
 
 # ── SQLite database ────────────────────────────────────────────────────────
-db_url <- "https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.11/pilot_vannmiljo.sqlite"
+db_url <- "https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.15/pilot_vannmiljo.sqlite"
 local_db_file_name <- "pilot_vannmiljo.sqlite"
 if (!file.exists(local_db_file_name)) {
   download.file(db_url, local_db_file_name, mode = "wb")
