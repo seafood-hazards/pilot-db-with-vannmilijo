@@ -94,3 +94,7 @@ After renaming the columns, the internal row values must be cleaned and translat
 * **Translating Parameters:**
 
   The Norwegian chemical parameter names in `param_name` are mapped to their English equivalents (e.g., *Kobber* to *Copper*, *Sink* to *Zinc*).
+
+* **Translating Units:**
+
+  The dry weight suffix `t.v.` is replaced with `dw` when the unit contains `t.v.`.
