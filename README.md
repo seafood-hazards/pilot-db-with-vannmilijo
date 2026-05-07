@@ -1,6 +1,6 @@
 # Vannmiljø Pilot Database
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19797854.svg)](https://doi.org/10.5281/zenodo.19797854)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20072713.svg)](https://doi.org/10.5281/zenodo.20072713)
 
 This repository contains the source Quarto Markdown documents for the [Vannmiljø Pilot Database](https://seafood-hazards.github.io/vannmiljo-pilot/) website.
 
