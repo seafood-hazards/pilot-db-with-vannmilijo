@@ -6,6 +6,10 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 
+## [0.1.17] - 2026-05-07
+### Fixed
+- average calculation for the interactive map
+
 ## [0.1.16] - 2026-04-26
 ### Added
 - coordinate transformation section
