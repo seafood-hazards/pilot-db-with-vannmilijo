@@ -226,7 +226,7 @@ tribble(
 
 A tab-delimited files containing particle fractions is available for download at the following location.
 
- * [pilot_vannmiljo_particles.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.5/pilot_vannmiljo_particles.tsv.gz)
+ * [pilot_vannmiljo_particles.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.16/pilot_vannmiljo_particles.tsv.gz)
 
 ### Column Definition
 
