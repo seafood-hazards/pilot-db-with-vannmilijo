@@ -15,9 +15,9 @@ Three data files were created for the initial analysis using the Vannmiljø data
 
 Three tab-delimited files containing all major data from the database, particle fractions, and major data plus particle fractions are available for download at the following location.
 
- * [pilot_vannmiljo_all.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.15/pilot_vannmiljo_all.tsv.gz)
- * [pilot_vannmiljo_particles.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.15/pilot_vannmiljo_particles.tsv.gz)
- * [pilot_vannmiljo_pivoted_particles.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.15/pilot_vannmiljo_pivoted_particles.tsv.gz)
+ * [pilot_vannmiljo_all.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.16/pilot_vannmiljo_all.tsv.gz)
+ * [pilot_vannmiljo_particles.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.16/pilot_vannmiljo_particles.tsv.gz)
+ * [pilot_vannmiljo_pivoted_particles.tsv.gz](https://github.com/seafood-hazards/vannmiljo-pilot/releases/download/v0.1.16/pilot_vannmiljo_pivoted_particles.tsv.gz)
 
 ::: {.callout-important}
 The `pilot_vannmiljo_pivoted_particles.tsv.gz` file is the recommended starting point for sediment chemistry analyses.

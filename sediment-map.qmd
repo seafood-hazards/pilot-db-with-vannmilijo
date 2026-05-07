@@ -120,10 +120,17 @@ value_range_result = db.query(`
          MIN(avg_value) AS min_avg_value,
          MAX(avg_value) AS max_avg_value
   FROM (SELECT s.param_id,
-               AVG(s.value) AS avg_value
+               AVG(
+                 CASE
+                   WHEN a.unit = 'mg/kg dw' THEN s.value
+                   WHEN a.unit = 'µg/kg dw' THEN s.value / 1000
+                   ELSE NULL
+                 END
+               ) AS avg_value
         FROM sediment s
                  JOIN sample s1 ON s1.sample_id = s.sample_id
                  JOIN site s2 ON s2.site_code = s1.site_code
+                 JOIN analysis_method a ON a.analysis_id = s.analysis_id
         WHERE s.param_id = '${selected_element.value}'
           AND CAST(STRFTIME('%Y', s1.sample_time) AS INTEGER) BETWEEN ${year_start} AND ${year_end}
         GROUP BY s2.lat, s2.lon) t
@@ -137,10 +144,17 @@ value_max = value_range_result[0]?.max_avg_value ?? 1
 map_data = db.query(`
     SELECT s2.lon AS longitude,
            s2.lat AS latitude,
-           AVG(s.value) AS avg_value
+           AVG(
+             CASE
+               WHEN a.unit = 'mg/kg dw' THEN s.value
+               WHEN a.unit = 'µg/kg dw' THEN s.value / 1000
+               ELSE NULL
+             END
+           ) AS avg_value
     FROM sediment s
     JOIN sample s1 ON s1.sample_id = s.sample_id
     JOIN site s2 ON s2.site_code = s1.site_code
+    JOIN analysis_method a ON a.analysis_id = s.analysis_id
     WHERE s.param_id = '${selected_element.value}'
       AND CAST(STRFTIME('%Y', s1.sample_time) AS INTEGER) BETWEEN ${year_start} AND ${year_end}
     GROUP BY s.param_id, s2.lat, s2.lon
@@ -211,7 +225,7 @@ function fmtVal(v) {
   if (legendEl) {
     legendEl.innerHTML = `
       <div class="legend-title">${selected_element.label}</div>
-      <div style="font-size:11px;color:#555">Avg (µg/kg) · ${year_start}–${year_end}</div>
+      <div style="font-size:11px;color:#555">Avg (mg/kg) · ${year_start}–${year_end}</div>
       <div class="legend-bar"></div>
       <div class="legend-labels">
         <span>${fmtVal(value_min)}</span> &nbsp;
